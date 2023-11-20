@@ -2,6 +2,9 @@
 #include <vector>
 using namespace std;
 
+const string RED = "\033[31m";
+const string RST = "\033[0m";
+
 class Spiel {
 public:
     void setZahlen(vector<int> zahlen) {
@@ -65,13 +68,39 @@ public:
         return zahlen;
     }
 
+    void ausgabeM(int zahlenRange, int zahlenSize, vector<int> zahlen, int ausgabeBreite) {
+        cout << endl << "Ihre ausgewählten Zahlen sind:\n";
+        for (int i = 1; i <= zahlenRange; i++) {
+            bool isHighlighted = false;
+            for (int j = 0; j < zahlenSize; j++) {
+                if (i == zahlen[j]) {
+                    isHighlighted = true;
+                    break;
+                }
+            }
+            if (isHighlighted) {
+                cout << RED;
+            }
+            if (i < 10) {
+                cout << "0" << i << " ";
+            }
+            if (i > 9) {
+                cout << i << " ";
+            }
+            cout << RST;
+            if (i % ausgabeBreite == 0) {
+                cout << endl;
+            }
+        }
+    }
+
     void ziehung() {
         // Methodencode
     }
     void ergebnis() {
         // Methodencode
     }
-private:
+public: // Hier wurde public hinzugefügt
     vector<Spiel> spiele;
     vector<Spieler> spieler;
 };
@@ -80,4 +109,5 @@ int main(){
   Lotto lotto;
   lotto.neuesSpiel();
   lotto.spielerEingabe(Spieler());
+  lotto.ausgabeM(49, 6, lotto.spiele.back().getZahlen(), 7);
 }
