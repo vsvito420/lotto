@@ -8,10 +8,12 @@ public:
         // Methodencode
     }
     vector<int> getZahlen() {
+        return gezogeneZahlen;
         // Methodencode
     }
     bool gewonnen() {
         // Methodencode
+        return 0;
     }
 private:
     vector<int> gezogeneZahlen;
@@ -24,6 +26,7 @@ public:
     }
     bool getGewonnen() {
         // Methodencode
+        return gewonnen;
     }
 private:
     bool gewonnen;
