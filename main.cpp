@@ -94,13 +94,34 @@ public:
         }
     }
 
+    void routine(int zahlenSize, int zahlenRange, int ausgabeBreite) {
+        bool istEinzigartig;
+        int zahl = 0;
+        vector<int> zahlen(zahlenSize);
+        srand(static_cast<unsigned int>(time(NULL)));
+        for (int i = 0; i < zahlenSize; i++) {
+            do {
+                zahl = (rand() % zahlenRange) + 1;
+                istEinzigartig = true;
+                for (int j = 0; j < i; j++) {
+                    if (zahlen[j] == zahl) {
+                        istEinzigartig = false;
+                        break;
+                    }
+                }
+            } while (!istEinzigartig);
+            zahlen[i] = zahl;
+        }
+        ausgabeM(zahlenRange, zahlenSize, zahlen, ausgabeBreite);
+    }
+
     void ziehung() {
         // Methodencode
     }
     void ergebnis() {
         // Methodencode
     }
-public: // Hier wurde public hinzugefügt
+public:
     vector<Spiel> spiele;
     vector<Spieler> spieler;
 };
@@ -110,4 +131,5 @@ int main(){
   lotto.neuesSpiel();
   lotto.spielerEingabe(Spieler());
   lotto.ausgabeM(49, 6, lotto.spiele.back().getZahlen(), 7);
+  lotto.routine(6, 49, 7);
 }
