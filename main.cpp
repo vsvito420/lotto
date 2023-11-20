@@ -5,15 +5,14 @@ using namespace std;
 class Spiel {
 public:
     void setZahlen(vector<int> zahlen) {
-        // Methodencode
+        gezogeneZahlen = zahlen;
     }
     vector<int> getZahlen() {
         return gezogeneZahlen;
-        // Methodencode
     }
     bool gewonnen() {
         // Methodencode
-        return 0;
+        return false;
     }
 private:
     vector<int> gezogeneZahlen;
@@ -22,10 +21,9 @@ private:
 class Spieler {
 public:
     void setGewonnen(bool gewonnen) {
-        // Methodencode
+        this->gewonnen = gewonnen;
     }
     bool getGewonnen() {
-        // Methodencode
         return gewonnen;
     }
 private:
@@ -35,21 +33,14 @@ private:
 class Lotto {
 public:
     void neuesSpiel() {
-        // Methodencode
+        spiele.push_back(Spiel());
+        spieler.push_back(Spieler());
     }
     void spielerEingabe(Spieler spieler) {
-        // Methodencode
+        spiele.back().setZahlen(eingabeM(6, 49, 7));
     }
 
-    bool pruefen(int zahl, int zahlenSize) {
-        if (zahl >= 1 && zahl <= zahlenSize) {
-            return true; // Die Zahl ist gültig
-        } else {
-            return false; // Die Zahl ist ungültig
-        }
-    }
-
-    void eingabeM(int zahlenSize, int zahlenRange, int ausgabeBreite) {
+    vector<int> eingabeM(int zahlenSize, int zahlenRange, int ausgabeBreite) {
         cout << "Geben Sie " << zahlenSize << " Werte ein (1-" << zahlenRange << "):" << endl;
         bool istEinzigartig;
         int zahl = 0;
@@ -59,7 +50,7 @@ public:
                 cin >> zahl;
                 istEinzigartig = true;
                 for (int j = 0; j < i; j++) {
-                    if (!pruefen(zahl, zahlenRange)) {
+                    if (zahl < 1 || zahl > zahlenRange) {
                         istEinzigartig = false;
                         cout << "Ungültige Eingabe! Bitte geben Sie eine Zahl zwischen 1 und " << zahlenRange << " ein." << endl;
                     }
@@ -71,7 +62,7 @@ public:
             } while (!istEinzigartig);
             zahlen[i] = zahl;
         }
-        
+        return zahlen;
     }
 
     void ziehung() {
@@ -87,5 +78,6 @@ private:
 
 int main(){
   Lotto lotto;
-  lotto.eingabeM(6,49,7);
+  lotto.neuesSpiel();
+  lotto.spielerEingabe(Spieler());
 }
