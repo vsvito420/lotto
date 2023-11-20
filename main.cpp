@@ -10,6 +10,36 @@ using namespace std:
 #define cCYN  "\033[36m"      // Cyan
 #define cWHT  "\033[37m"      // Weiß
 
+class Spiel {
+public:
+    void setZahlen(vector<int> zahlen);
+    vector<int> getZahlen();
+    bool gewonnen();
+private:
+    vector<int> gezogeneZahlen;
+};
+
+class Spieler {
+public:
+    void setGewonnen(bool gewonnen);
+    bool getGewonnen();
+private:
+    bool gewonnen;
+};
+
+class Lotto {
+public:
+    void neuesSpiel();
+    void spielerEingabe(Spieler spieler);
+    void ziehung();
+    void ergebnis();
+private:
+    vector<Spiel> spiele;
+    vector<Spieler> spieler;
+};
+
+
+
 int main(){
   cout << "hello";
 }
