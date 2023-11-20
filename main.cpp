@@ -2,8 +2,8 @@
 #include <vector>
 using namespace std;
 
-const string RED = "\033[31m";
-const string RST = "\033[0m";
+const string colorRED = "\033[31m";
+const string colorRST = "\033[0m";
 
 class Spiel {
 public:
@@ -79,7 +79,7 @@ public:
                 }
             }
             if (isHighlighted) {
-                cout << RED;
+                cout << colorRED;
             }
             if (i < 10) {
                 cout << "0" << i << " ";
@@ -87,21 +87,21 @@ public:
             if (i > 9) {
                 cout << i << " ";
             }
-            cout << RST;
+            cout << colorRST;
             if (i % ausgabeBreite == 0) {
                 cout << endl;
             }
         }
     }
 
-    void routine(int zahlenSize, int zahlenRange, int ausgabeBreite) {
+    void ziehung() {
         bool istEinzigartig;
         int zahl = 0;
-        vector<int> zahlen(zahlenSize);
+        vector<int> zahlen(6);
         srand(static_cast<unsigned int>(time(NULL)));
-        for (int i = 0; i < zahlenSize; i++) {
+        for (int i = 0; i < 6; i++) {
             do {
-                zahl = (rand() % zahlenRange) + 1;
+                zahl = (rand() % 49) + 1;
                 istEinzigartig = true;
                 for (int j = 0; j < i; j++) {
                     if (zahlen[j] == zahl) {
@@ -112,12 +112,9 @@ public:
             } while (!istEinzigartig);
             zahlen[i] = zahl;
         }
-        ausgabeM(zahlenRange, zahlenSize, zahlen, ausgabeBreite);
+        ausgabeM(49, 6, zahlen, 7);
     }
 
-    void ziehung() {
-        // Methodencode
-    }
     void ergebnis() {
         // Methodencode
     }
@@ -131,5 +128,5 @@ int main(){
   lotto.neuesSpiel();
   lotto.spielerEingabe(Spieler());
   lotto.ausgabeM(49, 6, lotto.spiele.back().getZahlen(), 7);
-  lotto.routine(6, 49, 7);
+  lotto.ziehung();
 }
