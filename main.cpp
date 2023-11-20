@@ -10,7 +10,9 @@ using namespace std:
 #define cCYN  "\033[36m"      // Cyan
 #define cWHT  "\033[37m"      // Weiß
 
-class Spiel {
+class Spiel { 
+/* Die Spiel-Klasse hat Methoden zum Setzen und Abrufen 
+der gezogenen Zahlen sowie eine Methode, um zu prüfen, ob ein Spieler gewonnen hat.*/
 public:
     void setZahlen(vector<int> zahlen);
     vector<int> getZahlen();
@@ -20,6 +22,7 @@ private:
 };
 
 class Spieler {
+/*Die Spieler-Klasse hat Methoden zum Setzen und Abrufen des Gewinnstatus eines Spielers.*/
 public:
     void setGewonnen(bool gewonnen);
     bool getGewonnen();
@@ -28,6 +31,8 @@ private:
 };
 
 class Lotto {
+/*Die Lotto-Klasse hat Methoden zum Erstellen neuer Spiele, zum Sammeln von Spieler-Eingaben, 
+zur Ziehung der Lottozahlen und zum Anzeigen des Ergebnisses.*/
 public:
     void neuesSpiel();
     void spielerEingabe(Spieler spieler);
