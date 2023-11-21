@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 using namespace std;
+int lottoSize=6;
+int lottoRange=49;
 
 struct Zahl {
     int number;
