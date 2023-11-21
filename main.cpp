@@ -1,27 +1,44 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-int lottoSize=6;
-int lottoRange=49;
+#define cRST  "\033[0m"       // Reset
+#define cRED  "\033[31m"      // Rot
 
-struct Zahl {
-    int number;
-    int count;
+class Lotto {
+public:
+    struct Zahl {
+        int number;
+        int count;
+    };
+
+    void schein(int scheinRange, int scheinBreite) {
+        vector<Zahl> vector;
+
+        for (int i = 1; i <= scheinRange; ++i) {
+            Zahl newZahl = {i, 0};
+            vector.push_back(newZahl);
+        }
+
+        int j=0;
+        for (size_t i = 0; i < vector.size(); ++i) {
+            j++;
+            cout << cRED << vector[i].count << "x " << cRST << vector[i].number << "\t";
+            if (j % scheinBreite == 0) {
+                cout << endl;
+            } else {
+                continue;
+            }
+            
+        }
+    }
+
+private:
+
 };
 
-
-
 int main() {
-    vector<Zahl> vector;
+    Lotto lotto;
+    lotto.schein(49,7);
 
-    for (int i = 1; i <= 49; ++i) {
-        Zahl newZahl = {i, 0};
-        vector.push_back(newZahl);
-    }
-
-    for (auto& v : vector) {
-        cout << "Zahl: " << v.number << ", \tAnzahl: " << v.count << endl;
-    }
-    
     return 0;
 }
