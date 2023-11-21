@@ -28,8 +28,8 @@ public:
             } else {
                 continue;
             }
-            
         }
+        cout << endl << vector[5].count;
     }
 
 private:
@@ -39,6 +39,7 @@ private:
 int main() {
     Lotto lotto;
     lotto.schein(49,7);
+    
 
     return 0;
 }
