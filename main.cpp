@@ -54,16 +54,17 @@ public:
     
     vector<s_element> vector;
     
-    void m_ZahlEingeben(int scheinZahlenAnzahl, int scheinRange,int ausgabeBreite){
+    void m_zahlEingeben(int scheinZahlenAnzahl, int scheinRange,int ausgabeBreite){
         for (int i = 1; i <= scheinRange; ++i) {
-
-            s_element newZahl = {i, 0};
+            int temp;
+            cin >> temp;
+            s_element newZahl = {i, temp};
             vector.push_back(newZahl);
         }
     }
 
     void m_scheinPrint(int scheinBreite) {
-        cout << color2 << "+--------------------Lottoschein------------------------+" << color0 << endl;
+        cout << color2 << "+--------------------o_lottoschein------------------------+" << color0 << endl;
         int j=0; // bugfix: use of j intead of i did the job
         for (size_t i = 0; i < vector.size(); ++i) {
             j++;
@@ -86,9 +87,9 @@ private:
 };
 
 int main() {
-    C_LoteryTicket lotto;
-    lotto.m_ZahlEingeben(6,49,7);
-    lotto.m_scheinPrint(7);
+    C_LoteryTicket o_lotto;
+    o_lotto.m_zahlEingeben(6,49,7);
+    o_lotto.m_scheinPrint(7);
     cout << endl;
     
 
