@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <limits>
 #include <map>
 #include <cstdlib>
 #include <ctime>
@@ -93,36 +94,3 @@ public:
 private:
     vector<s_element> vector;
 };
-
-void createAndPrintTicket(C_LoteryTicket& ticket) {
-    int choice;
-    cout << "Möchten Sie die Zahlen selbst eingeben oder generieren lassen? (1 - Selbst eingeben, 2 - Generieren lassen): ";
-    cin >> choice;
-    if (choice == 1) {
-        ticket.m_Tippschein(6,49);
-    } else {
-        ticket.m_Tippschein(6,49, true);
-    }
-    ticket.m_scheinPrint();
-    cout << endl;
-}
-
-int main() {
-    int numTickets;
-    cout << "Wie viele Lottoscheine möchten Sie erstellen? ";
-    cin >> numTickets;
-
-    vector<C_LoteryTicket> tickets(numTickets);
-
-    for (int i = 0; i < numTickets; i++) {
-        createAndPrintTicket(tickets[i]);
-    }
-
-    cout << endl << "Alle Lottoscheine Anzahl+Zahlen: " << endl;
-    for (int i = 1; i < numTickets; i++) {
-        tickets[0].m_scheinOverlay(tickets[i]);
-    }
-    tickets[0].m_scheinPrint();
-
-    return 0;
-}
