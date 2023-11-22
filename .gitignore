@@ -1,0 +1,1 @@
+echo "*.exe" >> /c:/Users/Admin/Documents/GitHub/lotto/.gitignore
