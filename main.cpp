@@ -80,6 +80,7 @@ private:
 };
 
 int main() {
+    cout << color0 << "Vitos Lotto rewrite 4 mit Vektoren! "<< endl;
     C_LoteryTicket o_lotto;
     o_lotto.m_Tippschein(6,49,7);
     o_lotto.m_scheinPrint(7);
