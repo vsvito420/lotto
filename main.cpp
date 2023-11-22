@@ -41,19 +41,27 @@ public:
 };
 class C_LoteryTicket {
 public:
+    
     struct s_element { // schein element , eine zahl und eine anzahl
         int i_zahl;
         int i_anzahl;
     };
-
-    void m_schein(int scheinRange, int scheinBreite) {
-        vector<s_element> vector;
-
+    
+    vector<s_element> vector;
+    
+    void m_ZahlEingeben(int scheinZahlenAnzahl, int scheinRange,int ausgabeBreite){
         for (int i = 1; i <= scheinRange; ++i) {
+
             s_element newZahl = {i, 0};
             vector.push_back(newZahl);
         }
+    }
 
+    void m_schein(int scheinBreite) {
+        //Schein berechnung
+        
+        
+        // Schein Render
         int j=0; // bugfix: use of j intead of i did the job
         for (size_t i = 0; i < vector.size(); ++i) {
             j++;
@@ -73,7 +81,8 @@ private:
 
 int main() {
     C_LoteryTicket lotto;
-    lotto.m_schein(49,7);
+    lotto.m_ZahlEingeben(6,49,7);
+    lotto.m_schein(7);
     cout << endl;
     
 
