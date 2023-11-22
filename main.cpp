@@ -4,6 +4,41 @@ using namespace std;
 #define colorRST  "\033[0m"       // Reset
 #define colorRED  "\033[31m"      // Rot
 
+class C_LoteryGen{
+public:
+    bool pruefen(int zahl, int zahlenSize) {
+        if (zahl >= 1 && zahl <= zahlenSize) {
+            return true; // Die Zahl ist gültig
+        } else {
+            return false; // Die Zahl ist ungültig
+        }
+    }
+    
+        void eingabeM(int zahlenSize, int zahlenRange, int ausgabeBreite) {
+        cout << "Geben Sie " << zahlenSize << " Werte ein (1-" << zahlenRange << "):" << endl;
+        bool istEinzigartig;
+        int zahl = 0;
+        int zahlen[zahlenSize];
+        for (int i = 0; i < zahlenSize; i++) {
+            do {
+                cin >> zahl;
+                istEinzigartig = true;
+                for (int j = 0; j < i; j++) {
+                    if (!pruefen(zahl, zahlenRange)) {
+                        istEinzigartig = false;
+                        cout << "Ungültige Eingabe! Bitte geben Sie eine Zahl zwischen 1 und " << zahlenRange << " ein." << endl;
+                    }
+                    if (zahlen[j] == zahl) {
+                        istEinzigartig = false;
+                        break;
+                    }
+                }
+            } while (!istEinzigartig);
+            zahlen[i] = zahl;
+        }
+        
+    }
+};
 class C_LoteryTicket {
 public:
     struct s_element { // schein element , eine zahl und eine anzahl
