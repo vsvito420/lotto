@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-using namespace std;
+using namespace std; // :)
 #define color0  "\033[0m"       // Reset
 #define color1  "\033[31m"      // Rot
 #define color2  "\033[32m"      // 
