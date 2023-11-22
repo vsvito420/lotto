@@ -1,8 +1,13 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-#define colorRST  "\033[0m"       // Reset
-#define colorRED  "\033[31m"      // Rot
+#define color0  "\033[0m"       // Reset
+#define color1  "\033[31m"      // Rot
+#define color2  "\033[32m"      // 
+#define color3  "\033[33m"      // 
+#define color4  "\033[34m"      // 
+#define color5  "\033[35m"      // 
+#define color6  "\033[36m"      // 
 
 class C_LoteryGen{
 public:
@@ -57,21 +62,22 @@ public:
         }
     }
 
-    void m_schein(int scheinBreite) {
-        //Schein berechnung
-        
-        
-        // Schein Render
+    void m_scheinPrint(int scheinBreite) {
+        cout << color2 << "+--------------------Lottoschein------------------------+" << color0 << endl;
         int j=0; // bugfix: use of j intead of i did the job
         for (size_t i = 0; i < vector.size(); ++i) {
             j++;
-            cout << colorRED << vector[i].i_anzahl << "x " << colorRST << vector[i].i_zahl << "\t";
+            cout << color2<< "|" << color0 ;
+            cout << color1 << vector[i].i_anzahl << "x " << color0 << vector[i].i_zahl << "\t";
             if (j % scheinBreite == 0) {
+                cout << color2<< "|" << color0 ;
                 cout << endl;
             } else {
+                
                 continue;
             }
         }
+        cout << color2 << "+-------------------------------------------------------+" << color0 << endl;
         cout << endl << vector[5].i_anzahl;
     }
 
@@ -82,7 +88,7 @@ private:
 int main() {
     C_LoteryTicket lotto;
     lotto.m_ZahlEingeben(6,49,7);
-    lotto.m_schein(7);
+    lotto.m_scheinPrint(7);
     cout << endl;
     
 
