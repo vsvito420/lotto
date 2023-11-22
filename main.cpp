@@ -54,10 +54,8 @@ public:
     
     vector<s_element> vector;
     
-    void m_zahlEingeben(int scheinZahlenAnzahl, int scheinRange,int ausgabeBreite){
+    void m_zahlEingeben(int temp,int scheinZahlenAnzahl, int scheinRange,int ausgabeBreite){
         for (int i = 1; i <= scheinRange; ++i) {
-            int temp;
-            cin >> temp;
             s_element newZahl = {i, temp};
             vector.push_back(newZahl);
         }
@@ -88,7 +86,7 @@ private:
 
 int main() {
     C_LoteryTicket o_lotto;
-    o_lotto.m_zahlEingeben(6,49,7);
+    o_lotto.m_zahlEingeben(2,6,49,7);
     o_lotto.m_scheinPrint(7);
     cout << endl;
     
