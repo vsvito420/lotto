@@ -9,17 +9,16 @@ using namespace std;
 #define color5  "\033[35m"      // 
 #define color6  "\033[36m"      // 
 
-
 class C_LoteryTicket {
 public:
-    
     struct s_element { // schein element , eine zahl und eine anzahl
         int i_zahl;
         int i_anzahl;
     };
-    
-    vector<s_element> vector;
-    
+
+    vector<s_element> getVector() { return vector; }
+    void setVector(vector<s_element> v) { vector = v; }
+
     void m_zahlEingeben(int i, int temp){
         s_element newZahl = {i, temp};
         vector.push_back(newZahl);
@@ -48,7 +47,7 @@ public:
                         cout << "Ungültige Eingabe! Bitte geben Sie eine Zahl zwischen 1 und " << scheinRange << " ein." << endl;
                     }
                     if (vector[j].i_zahl == zahl) {
-                        cout << color3 << vector[j].i_zahl;
+                        cout << "ERROR:"<< color3 << vector[j].i_zahl << color2 << " Wurde bereits gewählt!"<< color5 << endl;
                         IstEinzigartig = false;
                         break;
                     }
@@ -70,7 +69,6 @@ public:
                 cout << color2<< "|" << color0 ;
                 cout << endl;
             } else {
-                
                 continue;
             }
         }
@@ -78,16 +76,13 @@ public:
     }
 
 private:
-
+    vector<s_element> vector;
 };
 
 int main() {
     C_LoteryTicket o_lotto;
-    // o_lotto.m_zahlEingeben(2,6);
     o_lotto.m_Tippschein(6,49,7);
     o_lotto.m_scheinPrint(7);
     cout << endl;
-    
-
     return 0;
 }
