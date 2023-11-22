@@ -19,7 +19,7 @@ public:
         }
     }
     
-        void eingabeM(int zahlenSize, int zahlenRange, int ausgabeBreite) {
+    void eingabeM(int zahlenSize, int zahlenRange, int ausgabeBreite) {
         cout << "Geben Sie " << zahlenSize << " Werte ein (1-" << zahlenRange << "):" << endl;
         bool istEinzigartig;
         int zahl = 0;
@@ -54,10 +54,42 @@ public:
     
     vector<s_element> vector;
     
-    void m_zahlEingeben(int temp,int scheinZahlenAnzahl, int scheinRange,int ausgabeBreite){
-        for (int i = 1; i <= scheinRange; ++i) {
-            s_element newZahl = {i, temp};
-            vector.push_back(newZahl);
+    void m_zahlEingeben(int i, int temp){
+        s_element newZahl = {i, temp};
+        vector.push_back(newZahl);
+    }
+
+    bool pruefen(int zahl, int zahlenSize) {
+        if (zahl >= 1 && zahl <= zahlenSize) {
+            return true; // Die Zahl ist gültig
+        } 
+        else{
+            return false; // Die Zahl ist ungültig
+        }       
+    }
+
+    void m_Tippschein(int zahlenSize, int scheinRange, int ausgabeBreite){
+        bool IstEinzigartig=0;
+        int zahl = 0;
+        cout << "Geben Sie " << zahlenSize << " Werte ein (1-" << scheinRange << "):" << endl;
+        for (int i = 0; i < zahlenSize; i++) {
+            do {
+                cin >> zahl;
+                IstEinzigartig = true;
+                for (int j = 0; j < i; j++) {
+                    if (!pruefen(zahl, scheinRange)) {
+                        IstEinzigartig = false;
+                        cout << "Ungültige Eingabe! Bitte geben Sie eine Zahl zwischen 1 und " << scheinRange << " ein." << endl;
+                    }
+                    if (vector[j].i_zahl == zahl) {
+                        cout << color3 << vector[j].i_zahl;
+                        IstEinzigartig = false;
+                        break;
+                    }
+                }
+            } while (!IstEinzigartig);
+            s_element newZahl = {zahl, 1}; // Add this line to create a new element with the entered number and an count of 1
+            vector.push_back(newZahl); // Add this line to add the new element to the vector
         }
     }
 
@@ -77,7 +109,6 @@ public:
             }
         }
         cout << color2 << "+-------------------------------------------------------+" << color0 << endl;
-        cout << endl << vector[5].i_anzahl;
     }
 
 private:
@@ -86,7 +117,8 @@ private:
 
 int main() {
     C_LoteryTicket o_lotto;
-    o_lotto.m_zahlEingeben(2,6,49,7);
+    // o_lotto.m_zahlEingeben(2,6);
+    o_lotto.m_Tippschein(6,49,7);
     o_lotto.m_scheinPrint(7);
     cout << endl;
     
