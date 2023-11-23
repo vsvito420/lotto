@@ -32,7 +32,7 @@ public:
     void m_Tippschein(int zahlenSize, int scheinRange, bool autoGenerate = false){
         bool IstEinzigartig=0;
         int zahl = 0;
-        cout << "Geben Sie " << zahlenSize << " Werte ein (1-" << scheinRange << "):" << endl;
+        cout << color4 << "Geben Sie " << zahlenSize << " Werte ein (1-" << scheinRange << "):" << endl;
         for (int i = 0; i < zahlenSize; i++) {
             do {
                 if (autoGenerate) {
@@ -44,10 +44,10 @@ public:
                 for (int j = 0; j < i; j++) {
                     if (!pruefen(zahl, scheinRange)) {
                         IstEinzigartig = false;
-                        cout << "Ungültige Eingabe! Bitte geben Sie eine Zahl zwischen 1 und " << scheinRange << " ein." << endl;
+                        cout << color3 << "Ungültige Eingabe! Bitte geben Sie eine Zahl zwischen 1 und " << scheinRange << " ein." << endl;
                     }
                     if (m_vector[j].i_zahl == zahl) {
-                        cout << "ERROR: " << color3 << m_vector[j].i_zahl << color2 << " Wurde bereits gewählt!" << color5 << endl;
+                        cout << color3 << "ERROR: " << color2 << m_vector[j].i_zahl << color2 << " Wurde bereits gewählt!" << color5 << endl;
                         IstEinzigartig = false;
                         break;
                     }
@@ -115,9 +115,10 @@ int main() {
     C_LoteryTicket ticket; // Erstellen Sie ein Ticket-Objekt
 
     int auswahl;
+    bool compareSchein = false; // Variable zum Speichern der Vergleichsoption
     do {
-        cout << "Bitte wählen Sie eine Option:\n";
-        cout << "1. Lotto 6 aus 49\n";
+        cout << color4 << "Bitte wählen Sie eine Option:\n";
+        cout << color2 << "1. Lotto 6 aus 49\n";
         cout << "2. Eurolotto\n";
         cout << "3. Lotto 6 aus 49 Tippschein anzeigen\n";
         cout << "4. Eurolotto Tippschein anzeigen\n";
@@ -129,28 +130,30 @@ int main() {
         switch (auswahl) {
             case 1: {
                 int choice;
-                cout << "Möchten Sie die Zahlen selbst eingeben oder generieren lassen?" << endl << "(1 - Selbst eingeben, 2 - Generieren lassen): ";
+                cout << color4 << "Möchten Sie die Zahlen selbst eingeben oder generieren lassen?" << endl << "(1 - Selbst eingeben, 2 - Generieren lassen): ";
                 cin >> choice;
                 if (choice == 1) {
                     ticket.m_Tippschein(6,49);
                 } else if (choice == 2) {
                     ticket.m_Tippschein(6,49, true);
                 } else {
-                    cout << "Ungültige Auswahl. Bitte wählen Sie eine gültige Option.\n";
+                    cout << color3 << "Ungültige Auswahl. Bitte wählen Sie eine gültige Option.\n";
                 }
+                compareSchein = true; // Setzen der Vergleichsoption auf true
                 break;
             }
             case 2: {
                 int choice;
-                cout << "Möchten Sie die Zahlen selbst eingeben oder generieren lassen?" << endl << "(1 - Selbst eingeben, 2 - Generieren lassen): ";
+                cout << color4 << "Möchten Sie die Zahlen selbst eingeben oder generieren lassen?" << endl << "(1 - Selbst eingeben, 2 - Generieren lassen): ";
                 cin >> choice;
                 if (choice == 1) {
                     ticket.m_Tippschein(5, 50);
                 } else if (choice == 2) {
                     ticket.m_Tippschein(5, 50, true);
                 } else {
-                    cout << "Ungültige Auswahl. Bitte wählen Sie eine gültige Option.\n";
+                    cout << color3 << "Ungültige Auswahl. Bitte wählen Sie eine gültige Option.\n";
                 }
+                compareSchein = true; // Setzen der Vergleichsoption auf true
                 break;
             }
             case 3: {
@@ -164,38 +167,43 @@ int main() {
                 break;
             }
             case 5: {
-                C_LoteryTicket otherTicket;
-                int choice;
-                cout << "Möchten Sie die Zahlen selbst eingeben oder generieren lassen?" << endl << "(1 - Selbst eingeben, 2 - Generieren lassen): ";
-                cin >> choice;
-                if (choice == 1) {
-                    otherTicket.m_Tippschein(6,49);
-                } else if (choice == 2) {
-                    otherTicket.m_Tippschein(6,49, true);
+                if (compareSchein) { // Überprüfen, ob ein Schein zum Vergleich ausgewählt wurde
+                    C_LoteryTicket otherTicket;
+                    int choice;
+                    cout << color4 << "Möchten Sie die Zahlen selbst eingeben oder generieren lassen?" << endl << "(1 - Selbst eingeben, 2 - Generieren lassen): ";
+                    cin >> choice;
+                    if (choice == 1) {
+                        otherTicket.m_Tippschein(6,49);
+                    } else if (choice == 2) {
+                        otherTicket.m_Tippschein(6,49, true);
+                    } else {
+                        cout << color3 << "Ungültige Auswahl. Bitte wählen Sie eine gültige Option.\n";
+                        break;
+                    }
+                    ticket.m_scheinOverlay(otherTicket);
+                    cout << color2 << "Tippscheine erfolgreich überlagert.\n";
                 } else {
-                    cout << "Ungültige Auswahl. Bitte wählen Sie eine gültige Option.\n";
-                    break;
+                    cout << color3 << "Es wurde noch kein Schein zum Vergleich ausgewählt.\n";
                 }
-                ticket.m_scheinOverlay(otherTicket);
-                cout << "Tippscheine erfolgreich überlagert.\n";
                 break;
             }
             case 6: {
                 int zahlenSize, scheinRange;
-                cout << "Geben Sie die Anzahl der Zahlen ein: ";
+                cout << color4 << "Geben Sie die Anzahl der Zahlen ein: ";
                 cin >> zahlenSize;
                 cout << "Geben Sie den Bereich der Zahlen ein: ";
                 cin >> scheinRange;
                 ticket.m_Tippschein(zahlenSize, scheinRange);
                 ticket.m_scheinPrint(zahlenSize, scheinRange);
+                compareSchein = true; // Setzen der Vergleichsoption auf true
                 break;
             }
             case 7: {
-                cout << "Programm beendet.\n";
+                cout << color4 << "Programm beendet.\n";
                 break;
             }
             default: {
-                cout << "Ungültige Auswahl. Bitte wählen Sie eine gültige Option.\n";
+                cout << color3 << "Ungültige Auswahl. Bitte wählen Sie eine gültige Option.\n";
             }
         }
     } while (auswahl != 7);
