@@ -56,25 +56,36 @@ public:
         }
     }
 
-    void m_scheinPrint() {
-        cout << color2 << "+--------------------o_lottoschein------------------------+" << color0 << endl;
+    void m_scheinPrint(int scheinBreite, int scheinRange) {
+        cout << color5 << "+";
+        for (int j = 0; j < scheinBreite; j++) {
+            cout << "________" << color0;
+        }
+        cout << "+" << color0 << endl;
+
         map<int, int> countMap;
         for (auto& el : vector) {
             countMap[el.i_zahl] = el.i_anzahl;
         }
-        for (int i = 1; i <= 49; ++i) {
-            cout << color2<< "|" << color0 ;
+        for (int i = 1; i <= scheinRange; ++i) {
+            cout << color2 << "| " << color0;
             if (countMap[i] == 0) {
                 cout << color6 << countMap[i] << "x " << color0 << i << "\t";
             } else {
                 cout << color1 << countMap[i] << "x " << color0 << i << "\t";
             }
-            if (i % 7 == 0) {
-                cout << color2<< "|" << color0 ;
+            if (i % scheinBreite == 0) {
+                cout << color2 << "|" << color0;
                 cout << endl;
             }
         }
-        cout << color2 << "+-------------------------------------------------------+" << color0 << endl;
+        cout << color5 << "+";
+        for (int j = 0; j < scheinBreite; j++) {
+            cout << "________" << color0;
+        }
+        cout << "+" << color0 << endl;
+
+
     }
 
     void m_scheinOverlay(C_LoteryTicket& other) {
@@ -95,90 +106,65 @@ private:
     vector<s_element> vector;
 };
 
-void createAndPrintTicket(C_LoteryTicket& ticket) {
-    int choice;
-    cout << "Möchten Sie die Zahlen selbst eingeben oder generieren lassen?" << endl << "(1 - Selbst eingeben, 2 - Generieren lassen): ";
-    cin >> choice;
-    if (choice == 1) {
-        ticket.m_Tippschein(6,49);
-    } else {
-        ticket.m_Tippschein(6,49, true);
-    }
-    ticket.m_scheinPrint();
-    cout << endl;
-}
 
 int main() {
     srand(time(0)); // Initialisieren Sie den Zufallsgenerator
+
+    C_LoteryTicket ticket; // Erstellen Sie ein Ticket-Objekt
 
     int auswahl;
     do {
         cout << "Bitte wählen Sie eine Option:\n";
         cout << "1. Lotto 6 aus 49\n";
         cout << "2. Eurolotto\n";
-        cout << "3. Ende des Programmes\n";
+        cout << "3. Lotto 6 aus 49 Tippschein anzeigen\n";
+        cout << "4. Eurolotto Tippschein anzeigen\n";
+        cout << "5. Ende des Programmes\n";
         cin >> auswahl;
 
         switch (auswahl) {
             case 1: {
-                int numTickets;
-                while (true) {
-                    cout << "Wie viele Lottoscheine möchten Sie erstellen? ";
-                    cin >> numTickets;
-                    if (cin.fail() || numTickets <= 0) {
-                        cin.clear();
-                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                        cout << "Ungültige Eingabe. Bitte geben Sie eine positive Zahl ein." << endl;
-                    } else {
-                        break;
-                    }
+                int choice;
+                cout << "Möchten Sie die Zahlen selbst eingeben oder generieren lassen?" << endl << "(1 - Selbst eingeben, 2 - Generieren lassen): ";
+                cin >> choice;
+                if (choice == 1) {
+                    ticket.m_Tippschein(6,49);
+                } else {
+                    ticket.m_Tippschein(6,49, true);
                 }
-
-                vector<C_LoteryTicket> tickets(numTickets);
-
-                int auswahl2;
-                cout << "Möchten Sie die Lottoscheine generieren oder manuell eingeben?\n";
-                cout << "1. Generieren\n";
-                cout << "2. Manuell eingeben\n";
-                cin >> auswahl2;
-                
-                switch (auswahl2) {
-                    case 1: {
-                        for (int i = 0; i < numTickets; i++) {
-                            tickets[i].m_Tippschein(6, 49, true);
-                        }
-                        break;
-                    }
-                    case 2: {
-                        for (int i = 0; i < numTickets; i++) {
-                            tickets[i].m_Tippschein(6, 49);
-                        }
-                        break;
-                    }
-                    default:
-                        cout << "Ungültige Auswahl. Bitte wählen Sie eine gültige Option.\n";
-                }
-
-                cout << endl << "Alle Lottoscheine Anzahl+Zahlen: " << endl;
-                for (int i = 1; i < numTickets; i++) {
-                    tickets[0].m_scheinOverlay(tickets[i]);
-                }
-                tickets[0].m_scheinPrint();
                 break;
             }
             case 2: {
-                C_LoteryTicket eurolotto;
-                eurolotto.m_Tippschein(5, 50);
-                // Hier können Sie weitere Operationen mit dem Eurolotto-Schein durchführen
+                // Implementieren Sie die Logik für "Eurolotto" hier
+                int choice;
+                cout << "Möchten Sie die Zahlen selbst eingeben oder generieren lassen?" << endl << "(1 - Selbst eingeben, 2 - Generieren lassen): ";
+                cin >> choice;
+                if (choice == 1) {
+                    ticket.m_Tippschein(5, 50);
+                } else {
+                    ticket.m_Tippschein(5, 50, true);
+                }
                 break;
             }
-            case 3:
+            case 3: {
+                ticket.m_scheinPrint(7,49);
+                cout << endl;
+                break;
+            }
+            case 4: {
+                ticket.m_scheinPrint(5,50);;
+                cout << endl;
+                break;
+            }
+            case 5: {
                 cout << "Programm beendet.\n";
                 break;
-            default:
+            }
+            default: {
                 cout << "Ungültige Auswahl. Bitte wählen Sie eine gültige Option.\n";
+            }
         }
-    } while (auswahl != 3);
+    } while (auswahl != 5);
 
     return 0;
 }
