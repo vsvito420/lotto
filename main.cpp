@@ -135,13 +135,12 @@ int main() {
                 }
 
                 vector<C_LoteryTicket> tickets(numTickets);
-
-                int auswahl2;
                 cout << "Möchten Sie die Lottoscheine generieren oder manuell eingeben?\n";
                 cout << "1. Generieren\n";
                 cout << "2. Manuell eingeben\n";
-                cin >> auswahl2;
                 
+                int auswahl2;
+                cin >> auswahl2;
                 switch (auswahl2) {
                     case 1: {
                         for (int i = 0; i < numTickets; i++) {
@@ -149,14 +148,17 @@ int main() {
                         }
                         break;
                     }
+
                     case 2: {
                         for (int i = 0; i < numTickets; i++) {
                             tickets[i].input(6, 49);
                         }
                         break;
                     }
-                    default:
+                    
+                    default: {
                         cout << "Ungültige Auswahl. Bitte wählen Sie eine gültige Option.\n";
+                    }
                 }
 
                 cout << endl << "Alle Lottoscheine Anzahl+Zahlen: " << endl;
