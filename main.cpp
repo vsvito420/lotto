@@ -27,7 +27,7 @@ public:
         return zahl >= 1 && zahl <= zahlenSize;
     }
 
-    void m_Tippschein(int zahlenSize, int scheinRange, bool autoGenerate = false){
+    void input(int zahlenSize, int scheinRange, bool autoGenerate = false){
         bool IstEinzigartig=0;
         int zahl = 0;
         cout << "Geben Sie " << zahlenSize << " Werte ein (1-" << scheinRange << "):" << endl;
@@ -56,8 +56,8 @@ public:
         }
     }
 
-    void m_scheinPrint() {
-        cout << color2 << "+--------------------o_lottoschein------------------------+" << color0 << endl;
+    void output() {
+        cout << color2 << "+-------------------------------------------------------+" << color0 << endl;
         map<int, int> countMap;
         for (auto& el : vector) {
             countMap[el.i_zahl] = el.i_anzahl;
@@ -77,7 +77,7 @@ public:
         cout << color2 << "+-------------------------------------------------------+" << color0 << endl;
     }
 
-    void m_scheinOverlay(C_LoteryTicket& other) {
+    void overlay(C_LoteryTicket& other) {
         map<int, int> countMap;
         for (auto& el : vector) {
             countMap[el.i_zahl] += el.i_anzahl;
@@ -95,16 +95,16 @@ private:
     vector<s_element> vector;
 };
 
-void createAndPrintTicket(C_LoteryTicket& ticket) {
+void inputAuto(C_LoteryTicket& ticket) {
     int choice;
     cout << "Möchten Sie die Zahlen selbst eingeben oder generieren lassen?" << endl << "(1 - Selbst eingeben, 2 - Generieren lassen): ";
     cin >> choice;
     if (choice == 1) {
-        ticket.m_Tippschein(6,49);
+        ticket.input(6,49);
     } else {
-        ticket.m_Tippschein(6,49, true);
+        ticket.input(6,49, true);
     }
-    ticket.m_scheinPrint();
+    ticket.output();
     cout << endl;
 }
 
@@ -145,13 +145,13 @@ int main() {
                 switch (auswahl2) {
                     case 1: {
                         for (int i = 0; i < numTickets; i++) {
-                            tickets[i].m_Tippschein(6, 49, true);
+                            tickets[i].input(6, 49, true);
                         }
                         break;
                     }
                     case 2: {
                         for (int i = 0; i < numTickets; i++) {
-                            tickets[i].m_Tippschein(6, 49);
+                            tickets[i].input(6, 49);
                         }
                         break;
                     }
@@ -161,22 +161,27 @@ int main() {
 
                 cout << endl << "Alle Lottoscheine Anzahl+Zahlen: " << endl;
                 for (int i = 1; i < numTickets; i++) {
-                    tickets[0].m_scheinOverlay(tickets[i]);
+                    tickets[0].overlay(tickets[i]);
                 }
-                tickets[0].m_scheinPrint();
+                tickets[0].output();
                 break;
             }
+
             case 2: {
                 C_LoteryTicket eurolotto;
-                eurolotto.m_Tippschein(5, 50);
+                eurolotto.input(5, 50);
                 // Hier können Sie weitere Operationen mit dem Eurolotto-Schein durchführen
                 break;
             }
-            case 3:
+
+            case 3:{
                 cout << "Programm beendet.\n";
                 break;
-            default:
+            }
+            
+            default:{
                 cout << "Ungültige Auswahl. Bitte wählen Sie eine gültige Option.\n";
+            }
         }
     } while (auswahl != 3);
 

@@ -55,5 +55,8 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "map": "cpp"
-    }
+    },
+    "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
+        "clang-diagnostic-error"
+    ]
 }
