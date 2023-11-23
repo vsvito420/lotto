@@ -117,8 +117,8 @@ int main() {
     int auswahl;
     bool compareSchein = false; // Variable zum Speichern der Vergleichsoption
     do {
-        cout << color4 << "Bitte wählen Sie eine Option:\n";
-        cout << color2 << "1. Lotto 6 aus 49\n";
+        cout << color6 << "Bitte wählen Sie eine Option:\n";
+        cout << color1 << "1. Lotto 6 aus 49\n";
         cout << "2. Eurolotto\n";
         cout << "3. Lotto 6 aus 49 Tippschein anzeigen\n";
         cout << "4. Eurolotto Tippschein anzeigen\n";
