@@ -21,18 +21,16 @@ public:
         int i_anzahl;
     };
 
-    const vector<s_element>& getVector() const { return m_vector; }
+    const vector<s_element>& getVector() const { return vector; }
 
     bool pruefen(int zahl, int zahlenSize) const {
         return zahl >= 1 && zahl <= zahlenSize;
     }
 
-    void setVector(const vector<s_element>& newVector) { m_vector = newVector; }
-
     void m_Tippschein(int zahlenSize, int scheinRange, bool autoGenerate = false){
         bool IstEinzigartig=0;
         int zahl = 0;
-        cout << color4 << "Geben Sie " << zahlenSize << " Werte ein (1-" << scheinRange << "):" << endl;
+        cout << "Geben Sie " << zahlenSize << " Werte ein (1-" << scheinRange << "):" << endl;
         for (int i = 0; i < zahlenSize; i++) {
             do {
                 if (autoGenerate) {
@@ -44,169 +42,143 @@ public:
                 for (int j = 0; j < i; j++) {
                     if (!pruefen(zahl, scheinRange)) {
                         IstEinzigartig = false;
-                        cout << color3 << "Ungültige Eingabe! Bitte geben Sie eine Zahl zwischen 1 und " << scheinRange << " ein." << endl;
+                        cout << "Ungültige Eingabe! Bitte geben Sie eine Zahl zwischen 1 und " << scheinRange << " ein." << endl;
                     }
-                    if (m_vector[j].i_zahl == zahl) {
-                        cout << color3 << "ERROR: " << color2 << m_vector[j].i_zahl << color2 << " Wurde bereits gewählt!" << color5 << endl;
+                    if (vector[j].i_zahl == zahl) {
+                        cout << "ERROR: " << color3 << vector[j].i_zahl << color2 << " Wurde bereits gewählt!" << color5 << endl;
                         IstEinzigartig = false;
                         break;
                     }
                 }
             } while (!IstEinzigartig);
             s_element newZahl = {zahl, 1}; 
-            m_vector.push_back(newZahl); 
+            vector.push_back(newZahl); 
         }
     }
 
-    void m_scheinPrint(int scheinBreite, int scheinRange) {
-        cout << color5 << "+";
-        for (int j = 0; j < scheinBreite; j++) {
-            cout << "________" << color0;
-        }
-        cout << "+" << color0 << endl;
-
+    void m_scheinPrint() {
+        cout << color2 << "+--------------------o_lottoschein------------------------+" << color0 << endl;
         map<int, int> countMap;
-        for (auto& el : m_vector) {
+        for (auto& el : vector) {
             countMap[el.i_zahl] = el.i_anzahl;
         }
-        for (int i = 1; i <= scheinRange; ++i) {
-            cout << color2 << "| " << color0;
+        for (int i = 1; i <= 49; ++i) {
+            cout << color2<< "|" << color0 ;
             if (countMap[i] == 0) {
                 cout << color6 << countMap[i] << "x " << color0 << i << "\t";
             } else {
                 cout << color1 << countMap[i] << "x " << color0 << i << "\t";
             }
-            if (i % scheinBreite == 0) {
-                cout << color2 << "|" << color0;
+            if (i % 7 == 0) {
+                cout << color2<< "|" << color0 ;
                 cout << endl;
             }
         }
-        cout << color5 << "+";
-        for (int j = 0; j < scheinBreite; j++) {
-            cout << "________" << color0;
-        }
-        cout << "+" << color0 << endl;
-
-
+        cout << color2 << "+-------------------------------------------------------+" << color0 << endl;
     }
 
     void m_scheinOverlay(C_LoteryTicket& other) {
         map<int, int> countMap;
-        for (auto& el : m_vector) {
+        for (auto& el : vector) {
             countMap[el.i_zahl] += el.i_anzahl;
         }
         for (auto& el : other.getVector()) {
             countMap[el.i_zahl] += el.i_anzahl;
         }
-        m_vector.clear();
+        vector.clear();
         for (auto& pair : countMap) {
-            m_vector.push_back({pair.first, pair.second});
+            vector.push_back({pair.first, pair.second});
         }
     }
 
 private:
-    vector<s_element> m_vector;
+    vector<s_element> vector;
 };
 
+void createAndPrintTicket(C_LoteryTicket& ticket) {
+    int choice;
+    cout << "Möchten Sie die Zahlen selbst eingeben oder generieren lassen?" << endl << "(1 - Selbst eingeben, 2 - Generieren lassen): ";
+    cin >> choice;
+    if (choice == 1) {
+        ticket.m_Tippschein(6,49);
+    } else {
+        ticket.m_Tippschein(6,49, true);
+    }
+    ticket.m_scheinPrint();
+    cout << endl;
+}
 
 int main() {
     srand(time(0)); // Initialisieren Sie den Zufallsgenerator
 
-    C_LoteryTicket ticket; // Erstellen Sie ein Ticket-Objekt
-
     int auswahl;
-    bool compareSchein = false; // Variable zum Speichern der Vergleichsoption
     do {
-        cout << color6 << "Bitte wählen Sie eine Option:\n";
-        cout << color1 << "1. Lotto 6 aus 49\n";
+        cout << "Bitte wählen Sie eine Option:\n";
+        cout << "1. Lotto 6 aus 49\n";
         cout << "2. Eurolotto\n";
-        cout << "3. Lotto 6 aus 49 Tippschein anzeigen\n";
-        cout << "4. Eurolotto Tippschein anzeigen\n";
-        cout << "5. Tippscheine überlagern\n";
-        cout << "6. Benutzerdefinierten Tippschein erstellen\n";
-        cout << "7. Ende des Programmes\n";
+        cout << "3. Ende des Programmes\n";
         cin >> auswahl;
 
         switch (auswahl) {
             case 1: {
-                int choice;
-                cout << color4 << "Möchten Sie die Zahlen selbst eingeben oder generieren lassen?" << endl << "(1 - Selbst eingeben, 2 - Generieren lassen): ";
-                cin >> choice;
-                if (choice == 1) {
-                    ticket.m_Tippschein(6,49);
-                } else if (choice == 2) {
-                    ticket.m_Tippschein(6,49, true);
-                } else {
-                    cout << color3 << "Ungültige Auswahl. Bitte wählen Sie eine gültige Option.\n";
+                int numTickets;
+                while (true) {
+                    cout << "Wie viele Lottoscheine möchten Sie erstellen? ";
+                    cin >> numTickets;
+                    if (cin.fail() || numTickets <= 0) {
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        cout << "Ungültige Eingabe. Bitte geben Sie eine positive Zahl ein." << endl;
+                    } else {
+                        break;
+                    }
                 }
-                compareSchein = true; // Setzen der Vergleichsoption auf true
+
+                vector<C_LoteryTicket> tickets(numTickets);
+
+                int auswahl2;
+                cout << "Möchten Sie die Lottoscheine generieren oder manuell eingeben?\n";
+                cout << "1. Generieren\n";
+                cout << "2. Manuell eingeben\n";
+                cin >> auswahl2;
+                
+                switch (auswahl2) {
+                    case 1: {
+                        for (int i = 0; i < numTickets; i++) {
+                            tickets[i].m_Tippschein(6, 49, true);
+                        }
+                        break;
+                    }
+                    case 2: {
+                        for (int i = 0; i < numTickets; i++) {
+                            tickets[i].m_Tippschein(6, 49);
+                        }
+                        break;
+                    }
+                    default:
+                        cout << "Ungültige Auswahl. Bitte wählen Sie eine gültige Option.\n";
+                }
+
+                cout << endl << "Alle Lottoscheine Anzahl+Zahlen: " << endl;
+                for (int i = 1; i < numTickets; i++) {
+                    tickets[0].m_scheinOverlay(tickets[i]);
+                }
+                tickets[0].m_scheinPrint();
                 break;
             }
             case 2: {
-                int choice;
-                cout << color4 << "Möchten Sie die Zahlen selbst eingeben oder generieren lassen?" << endl << "(1 - Selbst eingeben, 2 - Generieren lassen): ";
-                cin >> choice;
-                if (choice == 1) {
-                    ticket.m_Tippschein(5, 50);
-                } else if (choice == 2) {
-                    ticket.m_Tippschein(5, 50, true);
-                } else {
-                    cout << color3 << "Ungültige Auswahl. Bitte wählen Sie eine gültige Option.\n";
-                }
-                compareSchein = true; // Setzen der Vergleichsoption auf true
+                C_LoteryTicket eurolotto;
+                eurolotto.m_Tippschein(5, 50);
+                // Hier können Sie weitere Operationen mit dem Eurolotto-Schein durchführen
                 break;
             }
-            case 3: {
-                ticket.m_scheinPrint(7,49);
-                cout << endl;
+            case 3:
+                cout << "Programm beendet.\n";
                 break;
-            }
-            case 4: {
-                ticket.m_scheinPrint(5,50);;
-                cout << endl;
-                break;
-            }
-            case 5: {
-                if (compareSchein) { // Überprüfen, ob ein Schein zum Vergleich ausgewählt wurde
-                    C_LoteryTicket otherTicket;
-                    int choice;
-                    cout << color4 << "Möchten Sie die Zahlen selbst eingeben oder generieren lassen?" << endl << "(1 - Selbst eingeben, 2 - Generieren lassen): ";
-                    cin >> choice;
-                    if (choice == 1) {
-                        otherTicket.m_Tippschein(6,49);
-                    } else if (choice == 2) {
-                        otherTicket.m_Tippschein(6,49, true);
-                    } else {
-                        cout << color3 << "Ungültige Auswahl. Bitte wählen Sie eine gültige Option.\n";
-                        break;
-                    }
-                    ticket.m_scheinOverlay(otherTicket);
-                    cout << color2 << "Tippscheine erfolgreich überlagert.\n";
-                } else {
-                    cout << color3 << "Es wurde noch kein Schein zum Vergleich ausgewählt.\n";
-                }
-                break;
-            }
-            case 6: {
-                int zahlenSize, scheinRange;
-                cout << color4 << "Geben Sie die Anzahl der Zahlen ein: ";
-                cin >> zahlenSize;
-                cout << "Geben Sie den Bereich der Zahlen ein: ";
-                cin >> scheinRange;
-                ticket.m_Tippschein(zahlenSize, scheinRange);
-                ticket.m_scheinPrint(zahlenSize, scheinRange);
-                compareSchein = true; // Setzen der Vergleichsoption auf true
-                break;
-            }
-            case 7: {
-                cout << color4 << "Programm beendet.\n";
-                break;
-            }
-            default: {
-                cout << color3 << "Ungültige Auswahl. Bitte wählen Sie eine gültige Option.\n";
-            }
+            default:
+                cout << "Ungültige Auswahl. Bitte wählen Sie eine gültige Option.\n";
         }
-    } while (auswahl != 7);
+    } while (auswahl != 3);
 
     return 0;
 }
