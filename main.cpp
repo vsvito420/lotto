@@ -90,7 +90,7 @@ public:
             }
             else
             {
-                cout << color3 << countMap[i] << "x " << color0;
+                cout << color4 << countMap[i] << "x " << color0;
             }
             if (i < 10) {
                 cout << "0"; // Add leading zero for single-digit numbers
