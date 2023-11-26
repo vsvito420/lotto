@@ -1,21 +1,41 @@
 #include <iostream> // cout, cin, endl
 #include <vector>   // vector
-#include <limits>   // numeric_limits
 #include <map>      // map
-#include <cstdlib>  // rand, srand
-#include <ctime>    // time
 using namespace std;
 
-class LottoSchein
+class Table
 {
 public:
-    map<int, int> map;
-private:
-    struct cell
+    void anzeigenLottoZahlen() {
+        for(const auto& zelle : lottoTableVector) {
+            cout << "Lottozahl: " << zelle.lottoTableCellNumber << ", Anzahl: " << zelle.lottoTableCellAmount << endl;
+        }
+    }
+
+protected: // protected, weil die Klasse Table von der Klasse Program erweitert wird    
+    map<int, int> lottoTableMap;
+    struct lottoTableCell
     {
-        int cellNumber;
-        int cellAmount;
+        int lottoTableCellNumber;
+        int lottoTableCellAmount;
     };
-    
-    vector<cell> vector;
+
+    vector<lottoTableCell> lottoTableVector;
 };
+
+class Program : public Table
+{
+public:
+    void run() {
+        // Hier können Sie Methoden der Table-Klasse aufrufen, z.B.
+        anzeigenLottoZahlen();
+    }
+};
+
+int main()
+{
+    Program programm;
+    programm.run();
+    cout << "Programm beendet." << endl;
+    return 0;
+}
