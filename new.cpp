@@ -1,49 +1,55 @@
-#include <iostream> // cout, cin, endl
-#include <vector>   // vector
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
 using namespace std;
 
-struct LottoTableCell
-{
+class LottoTableCell {
+public:
     int lottoTableCellNumber;
     int lottoTableCellAmount;
 };
 
-class Table
-{
+class Table {
 public:
-    void hinzufuegenZahl(int nummer, int anzahl) {
-        LottoTableCell zelle {nummer, anzahl};
-        lottoTableVector.push_back(zelle);
+    int tableSize;
+    int tableRange;
+    
+    void generateTable(int num, int range) {
+        tableRange = range;
+        tableSize = num;
+        // Implementieren Sie hier die Logik zur Generierung von Tickets
     }
 
     void anzeigenLottoZahlen() {
-        for(const auto& zelle : lottoTableVector) {
-            cout << "Lottozahl: " << zelle.lottoTableCellNumber << ", Anzahl: " << zelle.lottoTableCellAmount << endl;
+        for(int i = 1; i <= tableRange; i++) {
+            auto it = find_if(lottoTableVector.begin(), lottoTableVector.end(), [i](const LottoTableCell& zelle) {
+                return zelle.lottoTableCellNumber == i;
+            });
+
+            if(it != lottoTableVector.end()) {
+                cout << "Zahl: " << it->lottoTableCellNumber << ", Anzahl: " << it->lottoTableCellAmount << endl;
+            } else {
+                cout << "Zahl: " << i << ", Anzahl: 0" << endl;
+            }
         }
     }
 
-protected:   
+protected:
     vector<LottoTableCell> lottoTableVector;
 };
 
-class Program : public Table
-{
+class Program {
 public:
     void run() {
-        // Hier können Sie Methoden der Table-Klasse aufrufen, z.B.
-        hinzufuegenZahl(7, 1);
-        hinzufuegenZahl(14, 1);
-        hinzufuegenZahl(21, 1);
-        hinzufuegenZahl(28, 1);
-        hinzufuegenZahl(35, 1);
-        hinzufuegenZahl(42, 1);
-        anzeigenLottoZahlen();
+        Table table;
+        table.generateTable(6, 49);
+        table.anzeigenLottoZahlen();
     }
 };
 
-int main()
-{
-    Program programm;
-    programm.run();
+int main() {
+    Program program;
+    program.run();
     return 0;
 }
