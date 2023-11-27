@@ -19,6 +19,7 @@ class Ticket
 public:
     int t_Size;
     int t_Range;
+    
 
     struct cell
     {
