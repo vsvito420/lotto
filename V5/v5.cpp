@@ -74,43 +74,39 @@ public:
 class Table //this class should be used to print the table of Ticket
 {
 public:
-    void printTable(Ticket& ticket)
+    void printTable(Ticket& ticket) //print the table of Ticket
     {
         cout << "Ihr Lottoschein:" << endl;
-        cout << "================" << endl;
-        cout << "Ziehung: " << endl;
+        cout << "========" << endl;
+        cout << "(Zahl) x Anzahl " << endl;
         for (int i = 1; i <= ticket.t_numRange; i++)
         {
-            cout << i << "\t";
+            if (i < 10) {
+                cout << "(0" << i << ")x";
+            } else {
+                cout << "(" << i << ")x";
+            }
+            cout << ticket.getNumberAmount()[i] << "\t";
             //every ticketWidth-th number a new line
             if (i % ticket.t_width == 0)
             {
                 cout << endl;
             }
         }
-        cout << endl;
-        cout << "Anzahl:" << endl;
-        for (int j = 1; j <= ticket.t_numRange; j++)
-        {
-            cout << ticket.getNumberAmount()[j] << "\t";
-            if (j % ticket.t_width == 0)
-            {
-                cout << endl;
-            }
-        }
+        cout << "========" << endl;
         cout << endl;
     }
 private:
 };
 
-class Program   //this class should be used to manage the program
+class Program  // Manage the program
 {   
 public:
     Ticket_649 ticket_649;
     Ticket_550 ticket_550;
     Ticket_212 ticket_212;
 
-    Program()
+    Program() // Constructor
     {
         int choice = 0;
         do
