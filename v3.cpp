@@ -3,6 +3,7 @@
 #include <algorithm>    // find_if and find and sort and unique 
 #include <cstdlib>      // rand()
 #include <map>          // map
+#include <ctime>        // time()
 using namespace std;
 
 class Ticket    
@@ -12,32 +13,24 @@ public:
     int t_numRange = 0; //Zahlenbereich
     int t_width = 0;    //Breite der Ausgabe
 
-    void userInputMap()
+    map<int, int> generateLottonumbers(int t_numCount, int t_numRange)
     {
-        int input = 0;  //Eingabe
-        int count = 0;  //Zähler
-        while (count < t_numCount)
+        for (int i = 1; i <= t_numRange; i++)
         {
-            cout << "Bitte geben Sie eine Zahl zwischen 1 und " << t_numRange << " ein: ";
-            cin >> input;
-            if (input > 0 && input <= t_numRange)
-            {
-                m_number_amount[input]++;
-                count++;
-            }
-            else
-            {
-                cout << "Die Zahl muss zwischen 1 und " << t_numRange << " liegen!" << endl;
-            }
+            m_number_amount[i] = 0;
         }
-    }
-    void printMap()
-    {
-        for (auto it = m_number_amount.begin(); it != m_number_amount.end(); it++)
+        for (int i = 1; i <= t_numCount; i++)
         {
-            cout << it->first << " : " << it->second << endl;
+            int number = rand() % t_numRange + 1;
+            m_number_amount[number]++;
         }
+        return m_number_amount;
     }
+
+    map<int, int>& getNumberAmount() {
+        return m_number_amount;
+    }
+
 protected:
     map<int, int> m_number_amount; //Zahlen und Anzahl
 };
@@ -50,8 +43,8 @@ public:
         t_numCount = 6;
         t_numRange = 49;
         t_width = 7;
+        m_number_amount = generateLottonumbers(t_numCount, t_numRange);
     }
-
 };
 
 class Ticket_550 : public Ticket
@@ -62,6 +55,7 @@ public:
         t_numCount = 5;
         t_numRange = 50;
         t_width = 10;
+        m_number_amount = generateLottonumbers(t_numCount, t_numRange);
     }
 };
 
@@ -73,75 +67,88 @@ public:
         t_numCount = 2;
         t_numRange = 12;
         t_width = 5;
+        m_number_amount = generateLottonumbers(t_numCount, t_numRange);
     }
 };
 
-class Program
+class Table //this class should be used to print the table of Ticket
 {
 public:
-    void menu()
+    void printTable(Ticket& ticket)
     {
-        cout << "Bitte wählen Sie ein Spiel aus:" << endl;
-        cout << "1: \t6 aus 49" << endl;
-        cout << "2: \t5 aus 50" << endl;
-        cout << "3: \t2 aus 12" << endl;
-        cout << "4: \tBeenden" << endl;
-    }
-    void menuInput()
-    {
-        int input = 0;
-        cout << "<(Bitte geben Sie eine Zahl zwischen 1 und 4 ein): ";
-        cin >> input;
-        switch (input)
+        cout << "Ihr Lottoschein:" << endl;
+        cout << "================" << endl;
+        cout << "Ziehung: ";
+        for (int i = 1; i <= ticket.t_numRange; i++)
         {
-        case 1:
-            cout << "|DEBUG: 6 aus 49 gewählt" << endl;
-            
-            break;
-        case 2:
-            cout << "|DEBUG: 5 aus 50 gewählt" << endl;
-            
-            break;
-        case 3:
-            cout << "|DEBUG: 2 aus 12 gewählt" << endl;
-            
-            break;
-        case 4:
-            cout << "|DEBUG: Beenden gewählt" << endl;
-            break;
-        default:
-            cout << "Bitte geben Sie eine Zahl zwischen 1 und 4 ein!" << endl;
-            break;
+            cout << i << "\t";
         }
+        cout << endl;
+        cout << "Anzahl: ";
+        for (int i = 1; i <= ticket.t_numRange; i++)
+        {
+            cout << ticket.getNumberAmount()[i] << "\t";
+        }
+        cout << endl;
     }
-    void init()
-    {
-        
-        Ticket_649 ticket_649;
-        cout << "|DEBUG: ticket649 initialized" << endl;
-        Ticket_550 ticket_550;
-        cout << "|DEBUG: ticket550 initialized" << endl;
-        Ticket_212 ticket_212;
-        cout << "|DEBUG: ticket212 initialized" << endl;
-        cout << "=========================================" << endl;  
-    }
-
-    void run()
-    {
-        cout << "\n|DEBUG: Program has started run()" << endl;
-        init();
-        menu();
-        menuInput();
-    }
-
 private:
+};
 
+class Program   //this class should be used to manage the program
+{   
+public:
+    Ticket_649 ticket_649;
+    Ticket_550 ticket_550;
+    Ticket_212 ticket_212;
+
+    Program()
+    {
+        int choice = 0;
+        do
+        {
+            cout << "Bitte waehlen Sie ein Spiel aus:" << endl;
+            cout << "1: 6 aus 49" << endl;
+            cout << "2: 5 aus 50" << endl;
+            cout << "3: 2 aus 12" << endl;
+            cout << "0: Beenden" << endl;
+            cin >> choice;
+            switch (choice)
+            {
+            case 1:
+                cout << "6 aus 49" << endl;
+                
+                Table table;
+                table.printTable(ticket_649);
+                break;
+            case 2:
+                cout << "5 aus 50" << endl;
+                
+                table.printTable(ticket_550);
+                break;
+            case 3:
+                cout << "2 aus 12" << endl;
+                
+                table.printTable(ticket_212);
+                break;
+            case 0:
+                cout << "Beenden" << endl;
+                break;
+            default:
+                cout << "Falsche Eingabe" << endl;
+                break;
+            }
+        } while (choice != 0);
+    }
+private:
+    
 };
 
 int main()
 {
+    Ticket ticket;
+    srand(time(NULL));	//Zufallsgenerator initialisieren
     cout << "Programm zur Verwaltung von Lottoscheinen" << endl;
     Program program;
-    program.run();
+
     return 0;
 }
