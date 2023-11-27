@@ -78,16 +78,25 @@ public:
     {
         cout << "Ihr Lottoschein:" << endl;
         cout << "================" << endl;
-        cout << "Ziehung: ";
+        cout << "Ziehung: " << endl;
         for (int i = 1; i <= ticket.t_numRange; i++)
         {
             cout << i << "\t";
+            //every ticketWidth-th number a new line
+            if (i % ticket.t_width == 0)
+            {
+                cout << endl;
+            }
         }
         cout << endl;
-        cout << "Anzahl: ";
-        for (int i = 1; i <= ticket.t_numRange; i++)
+        cout << "Anzahl:" << endl;
+        for (int j = 1; j <= ticket.t_numRange; j++)
         {
-            cout << ticket.getNumberAmount()[i] << "\t";
+            cout << ticket.getNumberAmount()[j] << "\t";
+            if (j % ticket.t_width == 0)
+            {
+                cout << endl;
+            }
         }
         cout << endl;
     }
