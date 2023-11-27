@@ -54,7 +54,7 @@ public:
     {
         t_numCount = 5;
         t_numRange = 50;
-        t_width = 10;
+        t_width = 5;
         m_number_amount = generateLottonumbers(t_numCount, t_numRange);
     }
 };
@@ -66,7 +66,7 @@ public:
     {
         t_numCount = 2;
         t_numRange = 12;
-        t_width = 5;
+        t_width = 6;
         m_number_amount = generateLottonumbers(t_numCount, t_numRange);
     }
 };
@@ -77,7 +77,11 @@ public:
     void printTable(Ticket& ticket) //print the table of Ticket
     {
         cout << "Ihr Lottoschein:" << endl;
-        cout << "========" << endl;
+        for (int k=1; k < ticket.t_width; k++)
+        {
+            cout << "=========";
+        }
+        cout << endl;
         cout << "(Zahl) x Anzahl " << endl;
         for (int i = 1; i <= ticket.t_numRange; i++)
         {
@@ -93,7 +97,11 @@ public:
                 cout << endl;
             }
         }
-        cout << "========" << endl;
+        for (int k=1; k < ticket.t_width; k++)
+        {
+            cout << "=========";
+        }
+        cout << endl;
         cout << endl;
     }
 private:
