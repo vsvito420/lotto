@@ -98,7 +98,12 @@ public:
             } else {
                 cout << "(" << i << ")x";
             }
-            cout << ticket.getNumberAmount()[i] << "\t";
+            if (ticket.getNumberAmount()[i]!=0){
+                cout << color1;
+            } else {
+                cout << color0;
+            }
+            cout << ticket.getNumberAmount()[i] << color0<< "\t";
             //every ticketWidth-th number a new line
             if (i % ticket.t_width == 0)
             {
