@@ -5,6 +5,13 @@
 #include <map>          // map
 #include <ctime>        // time()
 using namespace std;
+#define color0 "\033[0m"  // Reset
+#define color1 "\033[31m" // Rot
+#define color2 "\033[32m" // Grün
+#define color3 "\033[33m" // Gelb
+#define color4 "\033[34m" // Blau
+#define color5 "\033[35m" // Magenta
+#define color6 "\033[36m" // Cyan
 
 class Ticket    
 {
@@ -73,6 +80,7 @@ public:
 
 class Table //this class should be used to print the table of Ticket
 {
+    
 public:
     void printTable(Ticket& ticket) //print the table of Ticket
     {
@@ -82,7 +90,7 @@ public:
             cout << "=========";
         }
         cout << endl;
-        cout << "(Zahl) x Anzahl " << endl;
+        cout << "("<< color2 <<"Zahl"<< color0<<") x Anzahl " << endl;
         for (int i = 1; i <= ticket.t_numRange; i++)
         {
             if (i < 10) {
@@ -109,10 +117,12 @@ private:
 
 class Program  // Manage the program
 {   
+    Table table;
 public:
     Ticket_649 ticket_649;
     Ticket_550 ticket_550;
     Ticket_212 ticket_212;
+    
 
     Program() // Constructor
     {
@@ -127,27 +137,23 @@ public:
             cin >> choice;
             switch (choice)
             {
-            case 1:
-                cout << "6 aus 49" << endl;
-                
-                Table table;
-                table.printTable(ticket_649);
+                case 0:
+                    cout << "Beenden" << endl;
                 break;
-            case 2:
-                cout << "5 aus 50" << endl;
-                
-                table.printTable(ticket_550);
+                case 1:
+                    cout << "6 aus 49" << endl;
+                    table.printTable(ticket_649);
                 break;
-            case 3:
-                cout << "2 aus 12" << endl;
-                
-                table.printTable(ticket_212);
+                case 2:
+                    cout << "5 aus 50" << endl;
+                    table.printTable(ticket_550);
                 break;
-            case 0:
-                cout << "Beenden" << endl;
+                case 3:
+                    cout << "2 aus 12" << endl;
+                    table.printTable(ticket_212);
                 break;
-            default:
-                cout << "Falsche Eingabe" << endl;
+                default:
+                    cout << "Falsche Eingabe" << endl;
                 break;
             }
         } while (choice != 0);
