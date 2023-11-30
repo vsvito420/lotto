@@ -5,6 +5,7 @@
 #include <ctime>        // time()
 using namespace std;
 
+
 class LotteryTicket
 { // This class represents a single lottery ticket
 public:

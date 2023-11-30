@@ -1,9 +1,11 @@
-#include <iostream>  // cout, cin
-#include <vector>    // vector
-#include <algorithm> // find_if and find and sort and unique
-#include <cstdlib>   // rand()
-#include <map>       // map
-#include <ctime>     // time()
+#include <iostream>     // cout, cin
+#include <vector>       // vector
+#include <algorithm>    // find_if and find and sort and unique 
+#include <map>          // map
+#include <ctime>        // time()
+#include <random>       // default_random_engine, uniform_int_distribution
+#include <unordered_set>// unordered_set
+#include <chrono>       // system_clock
 using namespace std;
 #define color0 "\033[0m"  // Reset
 #define color1 "\033[31m" // Rot
@@ -13,51 +15,47 @@ using namespace std;
 #define color5 "\033[35m" // Magenta
 #define color6 "\033[36m" // Cyan
 
-class Ticket
+class Ticket    
 {
 public:
-    int t_numCount = 0; // Anzahl der Zahlen
-    int t_numRange = 0; // Zahlenbereich
-    int t_width = 0;    // Breite der Ausgabe
+    int t_numCount = 0; //Anzahl der Zahlen
+    int t_numRange = 0; //Zahlenbereich
+    int t_width = 0;    //Breite der Ausgabe
 
     map<int, int> generateLottonumbers(int t_numCount, int t_numRange)
     {
-        srand(time(0)+t_numCount); // Zufallsgenerator hier initialisieren
         map<int, int> generatedNumbers;
-        vector<int> uniqueNumbers;
+        unordered_set<int> uniqueNumbers;
+
+        // Initialize random engine
+        std::default_random_engine engine(std::chrono::system_clock::now().time_since_epoch().count());
+        std::uniform_int_distribution<int> distribution(1, t_numRange);
 
         // Generate unique numbers
-        while (uniqueNumbers.size() < t_numCount)
-        {
-            int number = rand() % t_numRange + 1;
-            if (find(uniqueNumbers.begin(), uniqueNumbers.end(), number) == uniqueNumbers.end())
-            {
-                uniqueNumbers.push_back(number);
-            }
+        while (uniqueNumbers.size() < t_numCount) {
+            int number = distribution(engine);
+            uniqueNumbers.insert(number);
         }
 
         // Initialize the number amount map
-        for (int i = 1; i <= t_numRange; i++)
-        {
+        for (int i = 1; i <= t_numRange; i++) {
             generatedNumbers[i] = 0;
         }
 
         // Count the generated numbers
-        for (int number : uniqueNumbers)
-        {
+        for (int number : uniqueNumbers) {
             generatedNumbers[number]++;
         }
 
         return generatedNumbers;
     }
 
-    map<int, int> &getNumberAmount()
-    {
+    map<int, int>& getNumberAmount() {
         return m_number_amount;
     }
 
 protected:
-    map<int, int> m_number_amount; // Zahlen und Anzahl
+    map<int, int> m_number_amount; //Zahlen und Anzahl
 };
 
 class Ticket_649 : public Ticket
@@ -95,6 +93,7 @@ public:
         m_number_amount = generateLottonumbers(t_numCount, t_numRange);
     }
 };
+
 
 class Table // this class should be used to print the table of Ticket
 {
@@ -191,6 +190,8 @@ public:
 
 private:
 };
+
+
 
 int main()
 {
