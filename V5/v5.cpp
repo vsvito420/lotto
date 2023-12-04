@@ -4,7 +4,7 @@
 #include <map>          // map
 #include <ctime>        // time()
 #include <random>       // default_random_engine, uniform_int_distribution
-#include <set>// unordered_set
+#include <set>          // unordered_set
 #include <chrono>       // system_clock
 using namespace std;
 #define color0 "\033[0m"  // Reset
