@@ -21,14 +21,15 @@ public:
     int t_numCount = 0; //Anzahl der Zahlen
     int t_numRange = 0; //Zahlenbereich
     int t_width = 0;    //Breite der Ausgabe
+    default_random_engine engine; // Zufallszahlengenerator
+
+    Ticket() : engine(chrono::system_clock::now().time_since_epoch().count()) {}
 
     map<int, int> generateLottonumbers(int t_numCount, int t_numRange)
     {
         map<int, int> generatedNumbers;
         set<int> uniqueNumbers;
 
-        // Initialize random engine
-        default_random_engine engine(chrono::system_clock::now().time_since_epoch().count());
         uniform_int_distribution<int> distribution(1, t_numRange);
 
         // Generate unique numbers
