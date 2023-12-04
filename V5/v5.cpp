@@ -4,7 +4,7 @@
 #include <map>          // map
 #include <ctime>        // time()
 #include <random>       // default_random_engine, uniform_int_distribution
-#include <unordered_set>// unordered_set
+#include <set>// unordered_set
 #include <chrono>       // system_clock
 using namespace std;
 #define color0 "\033[0m"  // Reset
@@ -25,15 +25,15 @@ public:
     map<int, int> generateLottonumbers(int t_numCount, int t_numRange)
     {
         map<int, int> generatedNumbers;
-        unordered_set<int> uniqueNumbers;
+        set<int> uniqueNumbers;
 
         // Initialize random engine
-        std::default_random_engine engine(std::chrono::system_clock::now().time_since_epoch().count());
-        std::uniform_int_distribution<int> distribution(1, t_numRange);
+        default_random_engine engine(chrono::system_clock::now().time_since_epoch().count());
+        uniform_int_distribution<int> distribution(1, t_numRange);
 
         // Generate unique numbers
         while (uniqueNumbers.size() < t_numCount) {
-            int number = distribution(engine);
+            int number = distribution(engine); 
             uniqueNumbers.insert(number);
         }
 
@@ -106,8 +106,9 @@ public:
         {
             cout << "=========";
         }
+        cout << "\tLegende: "<< "(" << color2 << "Zahl" << color0 << ") x " << color1 << "Anzahl " << color0 << endl;
         cout << endl;
-        cout << "(" << color2 << "Zahl" << color0 << ") x " << color1 << "Anzahl " << color0 << endl;
+        
         for (int i = 1; i <= ticket.t_numRange; i++)
         {
             if (i < 10)
