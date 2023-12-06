@@ -3,8 +3,8 @@
 #include <algorithm>    // find_if and find and sort and unique 
 #include <map>          // map
 #include <ctime>        // time()
-#include <random>       // default_random_engine, uniform_int_distribution
-#include <set>          // unordered_set
+#include <cstdlib>      // Für rand() und srand()
+#include <unordered_set>          // unordered_set
 #include <chrono>       // system_clock
 using namespace std;
 #define color0 "\033[0m"  // Reset
@@ -17,45 +17,33 @@ using namespace std;
 
 class Ticket    
 {
-public:
+    public:
     int t_numCount = 0; //Anzahl der Zahlen
     int t_numRange = 0; //Zahlenbereich
     int t_width = 0;    //Breite der Ausgabe
-    default_random_engine engine; // Zufallszahlengenerator
 
-    Ticket() : engine(chrono::system_clock::now().time_since_epoch().count()) {}
-
-    map<int, int> generateLottonumbers(int t_numCount, int t_numRange)
+    map<int, int> generateLottonumbers(int t_numCount, int t_numRange) 
     {
-        map<int, int> generatedNumbers;
-        set<int> uniqueNumbers;
-
-        uniform_int_distribution<int> distribution(1, t_numRange);
-
-        // Generate unique numbers
-        while (uniqueNumbers.size() < t_numCount) {
-            int number = distribution(engine); 
-            uniqueNumbers.insert(number);
+        map<int, int> number_amount; //Zahlen und Anzahl
+        vector<int> numbers;         //Zahlen
+        srand(time(NULL));           //Zufallszahlengenerator initialisieren
+        for (int i = 1; i <= t_numRange; i++)
+        {
+            numbers.push_back(i); //Zahlen in den vector einfügen
         }
-
-        // Initialize the number amount map
-        for (int i = 1; i <= t_numRange; i++) {
-            generatedNumbers[i] = 0;
+        random_shuffle(numbers.begin(), numbers.end()); //Zahlen im vector mischen
+        for (int i = 0; i < t_numCount; i++)
+        {
+            number_amount[numbers[i]] = 1; //Zahlen in den map einfügen
         }
-
-        // Count the generated numbers
-        for (int number : uniqueNumbers) {
-            generatedNumbers[number]++;
-        }
-
-        return generatedNumbers;
+        return number_amount;  
     }
 
     map<int, int>& getNumberAmount() {
         return m_number_amount;
     }
 
-protected:
+    protected:
     map<int, int> m_number_amount; //Zahlen und Anzahl
 };
 
