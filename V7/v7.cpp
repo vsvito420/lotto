@@ -4,7 +4,7 @@
 #include <map>          // map
 #include <ctime>        // time()
 #include <cstdlib>      // Für rand() und srand()
-#include <unordered_set>          // unordered_set
+#include <map>          // map
 #include <chrono>       // system_clock
 using namespace std;
 
@@ -16,19 +16,13 @@ using namespace std;
 #define color5 "\033[35m" // Magenta
 #define color6 "\033[36m" // Cyan
 
-struct numberAndAmount
-{
-    int number;
-    int amount;
-};
-
 class Ticket    
 {
 private:
     int t_numCount; //Anzahl der Zahlen
     int t_numRange; //Zahlenbereich
     int t_width;    //Breite der Ausgabe
-    vector<numberAndAmount> m_number_amount; //Zahlen und Anzahl
+    map<int, int> m_number_amount; //Zahlen und Anzahl
 
 public:
     Ticket() : t_numCount(0), t_numRange(0), t_width(0) {};
@@ -43,9 +37,9 @@ public:
         cout << color1 << "Ticket:\t destructor" << color0 << endl;
     }
 
-    vector<numberAndAmount> generateLottonumbers(int numCount, int numRange) 
+    map<int, int> generateLottonumbers(int numCount, int numRange) 
     {
-        vector<numberAndAmount> number_amount; //Zahlen und Anzahl
+        map<int, int> number_amount; //Zahlen und Anzahl
         vector<int> numbers;         //Zahlen
         srand(time(NULL));           //Zufallszahlengenerator initialisieren
         for (int i = 1; i <= numRange; i++)
@@ -55,15 +49,12 @@ public:
         random_shuffle(numbers.begin(), numbers.end()); //Zahlen im vector mischen
         for (int i = 0; i < numCount; i++)
         {
-            numberAndAmount numAmount;
-            numAmount.number = numbers[i];
-            numAmount.amount = 1;
-            number_amount.push_back(numAmount); //Zahlen in den vector einfügen
+            number_amount[numbers[i]] = 1; //Zahlen in die map einfügen
         }
         return number_amount;  
     }
 
-    vector<numberAndAmount>& getNumberAmount() {
+    map<int, int>& getNumberAmount() {
         return m_number_amount;
     }
 
@@ -130,12 +121,9 @@ public:
 private:
     int getNumberAmount( Ticket &ticket, int number)
     {
-        for ( auto& numAmount : ticket.getNumberAmount())
+        if (ticket.getNumberAmount().count(number) > 0)
         {
-            if (numAmount.number == number)
-            {
-                return numAmount.amount;
-            }
+            return ticket.getNumberAmount().at(number);
         }
         return 0;
     }
