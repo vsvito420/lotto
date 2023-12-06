@@ -6,6 +6,8 @@
 #include <cstdlib>      // Für rand() und srand()
 #include <map>          // map
 #include <chrono>       // system_clock
+#include <random>       // default_random_engine
+
 using namespace std;
 
 #define color0 "\033[0m"  // Reset
@@ -25,28 +27,34 @@ private:
     map<int, int> m_number_amount; //Zahlen und Anzahl
 
 public:
-    Ticket() : t_numCount(0), t_numRange(0), t_width(0) {};
+    
+    Ticket() : t_numCount(0), t_numRange(0), t_width(0) {
+        cout << color4 << "class "<< color3 << "Ticket:\t "<< color0 <<"constructed" << color0 << endl;
+    };
+
     Ticket(int numCount, int numRange, int width) : t_numCount(numCount), t_numRange(numRange), t_width(width)
     {
         m_number_amount = generateLottonumbers(t_numCount, t_numRange);
+        cout << color4 << "class "<< color3 << "Ticket:\t " << color0 <<"\t constructed" << color0 << endl;
     }
 
     ~Ticket()
     {
         // Destructor code here
-        cout << color1 << "Ticket:\t destructor" << color0 << endl;
+        cout << color4 << "class "<< color3 << "Ticket:\t  "<< color0 <<"\t deconstructed" << color0 << endl;
     }
 
     map<int, int> generateLottonumbers(int numCount, int numRange) 
     {
         map<int, int> number_amount; //Zahlen und Anzahl
         vector<int> numbers;         //Zahlen
-        srand(time(NULL));           //Zufallszahlengenerator initialisieren
         for (int i = 1; i <= numRange; i++)
         {
             numbers.push_back(i); //Zahlen in den vector einfügen
         }
-        random_shuffle(numbers.begin(), numbers.end()); //Zahlen im vector mischen
+        std::random_device rd;
+        std::default_random_engine generator(rd());
+        std::shuffle(numbers.begin(), numbers.end(), generator); //Zahlen im vector mischen
         for (int i = 0; i < numCount; i++)
         {
             number_amount[numbers[i]] = 1; //Zahlen in die map einfügen
@@ -73,8 +81,20 @@ public:
 
 class Table // this class should be used to print the table of Ticket
 {
-
 public:
+    //constructor
+    Table()
+    {
+        cout << color4 << "class "<< color3 << "Table:\t "<< color0 <<"\tconstructed" << color0 << endl;
+    }
+    //destructor
+    ~Table()
+    {
+        // Destructor code here
+        cout << color4 << "class "<< color1 << "Table:\t "<< color0 <<"deconstructed" << color0 << endl;
+    }
+
+
     void printTable( Ticket &ticket) // print the table of Ticket
     {
         cout << "Ihr Lottoschein:" << endl;
@@ -133,29 +153,37 @@ class Program // Manage the program
 {
     Table table;
     Ticket ticket;
-
 public:
     Program() // Constructor
     {
-        cout << "Programm zur Verwaltung von Lottoscheinen" << endl;
+        cout << color4 << "class "<< color3 <<"Program:\t "<< color0 <<"\t constructed" << color0 << endl;
     }
 
     ~Program()
     {
         // Destructor code here
-        cout << color1 << "Program:\tdestructed" << color0 << endl;
+        cout << color4 << "class "<< color1 <<"Program:\t "<< color0 <<"\t deconstructed" << color0 << endl;
     }
 
+    void menu()
+    {
+        cout << color4 << "Game Start:" << color0 << endl;
+        cout << "_____________________________"<< endl;
+        run();
+    }
+private:
+    
     void run()
     {
         int choice = 0;
         do
         {
-            cout << "Bitte waehlen Sie ein Spiel aus:" << endl;
-            cout << "1: 6 aus 49" << endl;
-            cout << "2: 5 aus 50" << endl;
-            cout << "3: 2 aus 12" << endl;
-            cout << "0: Beenden" << endl;
+            cout << "Bitte wählen Sie ein Spiel aus:" << endl;
+            cout << color4 << "\t\t1: preset 6 | 49" << color0 << endl;
+            cout << color4 << "\t\t2: preset 5 | 50" << color0 << endl;
+            cout << color4 << "\t\t3: preset 2 | 12" << color0 << endl;
+            cout << color5 << "\t\t4: customRunXofY" << color0 << endl;
+            cout << color6 << "\t\t0: Beenden" << color0 << endl;
             cin >> choice;
             switch (choice)
             {
@@ -177,6 +205,9 @@ public:
                 ticket = Ticket(2, 12, 6);
                 table.printTable(ticket);
                 break;
+            case 4:
+                cout << color4 << "customRun" << color0 << endl;
+                customRun();
             default:
                 cout << "Falsche Eingabe" << endl;
                 break;
@@ -187,15 +218,35 @@ public:
     void customRunXofY(int x, int y, int z)
     {
         cout << x << " aus " << y << endl;
-        ticket = Ticket(x, y, z);
+        ticket = Ticket(x, y, z); //
         table.printTable(ticket);
     }
+
+    void customRun()
+    {
+        int n = 0; //Anzahl der Zahlen
+        int r = 0; //Zahlenbereich
+        int w = 0; //Breite der Ausgabe
+        
+        cout << "Lotto" << endl;
+
+        cout << "Wie viele Zahlen sollen gezogen werden?" << endl;
+        cin >> n;        cout << "Wie viele Zahlen sollen zur Auswahl stehen?" << endl;
+        
+        cin >> r;
+        
+        cout << "Wie viele Zahlen sollen pro Reihe angezeigt werden?" << endl;
+        cin >> w;
+        
+        customRunXofY(n, r, w);
+    }
+   
 };
 
 int main()
 {
     Program program;
-    program.customRunXofY(6, 49, 7);
-
+    program.menu();
+    
     return 0;
 }
