@@ -1,11 +1,11 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <map>
-#include <ctime>
-#include <cstdlib>
-#include <unordered_set>
-#include <chrono>
+#include <iostream>     // cout, cin
+#include <vector>       // vector
+#include <algorithm>    // find_if and find and sort and unique 
+#include <map>          // map
+#include <ctime>        // time()
+#include <cstdlib>      // Für rand() und srand()
+#include <unordered_set>          // unordered_set
+#include <chrono>       // system_clock
 using namespace std;
 
 #define color0 "\033[0m"  // Reset
@@ -16,96 +16,84 @@ using namespace std;
 #define color5 "\033[35m" // Magenta
 #define color6 "\033[36m" // Cyan
 
-map<int, int> global_number_count; // Globale Zählung der Zahlen
+struct numberAndAmount
+{
+    int number;
+    int amount;
+};
 
 class Ticket    
 {
-    public:
-    int t_numCount = 0; //Anzahl der Zahlen
-    int t_numRange = 0; //Zahlenbereich
-    int t_width = 0;    //Breite der Ausgabe
+private:
+    int t_numCount; //Anzahl der Zahlen
+    int t_numRange; //Zahlenbereich
+    int t_width;    //Breite der Ausgabe
+    vector<numberAndAmount> m_number_amount; //Zahlen und Anzahl
 
-
-    map<int, int> generateLottonumbers(int t_numCount, int t_numRange) 
+public:
+    Ticket() : t_numCount(0), t_numRange(0), t_width(0) {};
+    Ticket(int numCount, int numRange, int width) : t_numCount(numCount), t_numRange(numRange), t_width(width)
     {
-        map<int, int> number_amount; //Zahlen und Anzahl
+        m_number_amount = generateLottonumbers(t_numCount, t_numRange);
+    }
+
+    ~Ticket()
+    {
+        // Destructor code here
+    }
+
+    vector<numberAndAmount> generateLottonumbers(int numCount, int numRange) 
+    {
+        vector<numberAndAmount> number_amount; //Zahlen und Anzahl
         vector<int> numbers;         //Zahlen
         srand(time(NULL));           //Zufallszahlengenerator initialisieren
-        for (int i = 1; i <= t_numRange; i++)
+        for (int i = 1; i <= numRange; i++)
         {
             numbers.push_back(i); //Zahlen in den vector einfügen
         }
         random_shuffle(numbers.begin(), numbers.end()); //Zahlen im vector mischen
-        for (int i = 0; i < t_numCount; i++)
+        for (int i = 0; i < numCount; i++)
         {
-            number_amount[numbers[i]] = 1; //Zahlen in den map einfügen
-            global_number_count[numbers[i]]++; // Globale Zählung aktualisieren
+            numberAndAmount numAmount;
+            numAmount.number = numbers[i];
+            numAmount.amount = 1;
+            number_amount.push_back(numAmount); //Zahlen in den vector einfügen
         }
         return number_amount;  
     }
 
-    map<int, int>& getNumberAmount() {
+    vector<numberAndAmount>& getNumberAmount() {
         return m_number_amount;
     }
 
-    protected:
-    map<int, int> m_number_amount; //Zahlen und Anzahl
-};
+    int getNumCount()  {
+        return t_numCount;
+    }
 
+    int getNumRange()  {
+        return t_numRange;
+    }
 
-
-class Ticket_649 : public Ticket
-{
-public:
-    Ticket_649() // Constructor
-    {
-        t_numCount = 6;
-        t_numRange = 49;
-        t_width = 7;
-        m_number_amount = generateLottonumbers(t_numCount, t_numRange);
+    int getWidth()  {
+        return t_width;
     }
 };
-
-class Ticket_550 : public Ticket
-{
-public:
-    Ticket_550() // Constructor
-    {
-        t_numCount = 5;
-        t_numRange = 50;
-        t_width = 5;
-        m_number_amount = generateLottonumbers(t_numCount, t_numRange);
-    }
-};
-
-class Ticket_212 : public Ticket
-{
-public:
-    Ticket_212() // Constructor
-    {
-        t_numCount = 2;
-        t_numRange = 12;
-        t_width = 6;
-        m_number_amount = generateLottonumbers(t_numCount, t_numRange);
-    }
-};
-
 
 class Table // this class should be used to print the table of Ticket
 {
 
 public:
-    void printTable(Ticket &ticket) // print the table of Ticket
+    void printTable( Ticket &ticket) // print the table of Ticket
     {
         cout << "Ihr Lottoschein:" << endl;
-        for (int k = 1; k < ticket.t_width; k++)
+        for (int k = 1; k < ticket.getWidth(); k++)
         {
             cout << "=========";
         }
         cout << "\tLegende: "<< "(" << color2 << "Zahl" << color0 << ") x " << color1 << "Anzahl " << color0 << endl;
         cout << endl;
         
-        for (int i = 1; i <= ticket.t_numRange; i++)
+        for (int i = 1; i <= ticket.getNumRange(); i++)
         {
             if (i < 10)
             {
@@ -115,7 +103,7 @@ public:
             {
                 cout << color2 << "(" << i << ")" << color0 << "x";
             }
-            if (ticket.getNumberAmount()[i] != 0)
+            if (getNumberAmount(ticket, i) != 0)
             {
                 cout << color1;
             }
@@ -123,14 +111,14 @@ public:
             {
                 cout << color0;
             }
-            cout << ticket.getNumberAmount()[i] << color0 << "\t";
+            cout << getNumberAmount(ticket, i) << color0 << "\t";
             // every ticketWidth-th number a new line
-            if (i % ticket.t_width == 0)
+            if (i % ticket.getWidth() == 0)
             {
                 cout << endl;
             }
         }
-        for (int k = 1; k < ticket.t_width; k++)
+        for (int k = 1; k < ticket.getWidth(); k++)
         {
             cout << "=========";
         }
@@ -139,18 +127,36 @@ public:
     }
 
 private:
+    int getNumberAmount( Ticket &ticket, int number)
+    {
+        for ( auto& numAmount : ticket.getNumberAmount())
+        {
+            if (numAmount.number == number)
+            {
+                return numAmount.amount;
+            }
+        }
+        return 0;
+    }
 };
 
 class Program // Manage the program
 {
     Table table;
+    Ticket ticket;
 
 public:
-    Ticket_649 ticket_649;
-    Ticket_550 ticket_550;
-    Ticket_212 ticket_212;
-
     Program() // Constructor
+    {
+        cout << "Programm zur Verwaltung von Lottoscheinen" << endl;
+    }
+
+    ~Program()
+    {
+        // Destructor code here
+    }
+
+    void run()
     {
         int choice = 0;
         do
@@ -168,15 +174,18 @@ public:
                 break;
             case 1:
                 cout << "6 aus 49" << endl;
-                table.printTable(ticket_649);
+                ticket = Ticket(6, 49, 7);
+                table.printTable(ticket);
                 break;
             case 2:
                 cout << "5 aus 50" << endl;
-                table.printTable(ticket_550);
+                ticket = Ticket(5, 50, 5);
+                table.printTable(ticket);
                 break;
             case 3:
                 cout << "2 aus 12" << endl;
-                table.printTable(ticket_212);
+                ticket = Ticket(2, 12, 6);
+                table.printTable(ticket);
                 break;
             default:
                 cout << "Falsche Eingabe" << endl;
@@ -184,23 +193,12 @@ public:
             }
         } while (choice != 0);
     }
-
-    void printGlobalCount() {
-        cout << "Globale Zählung:" << endl;
-        for (int i = 1; i <= 50; i++) // Maximaler Zahlenbereich ist 50
-        {
-            cout << "Zahl " << i << ": " << global_number_count[i] << " mal" << endl;
-        }
-    }
-
-private:
 };
 
 int main()
 {
-    cout << "Programm zur Verwaltung von Lottoscheinen" << endl;
     Program program;
-    program.printGlobalCount(); // Globale Zählung ausgeben
+    program.run();
 
     return 0;
 }
