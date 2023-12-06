@@ -1,3 +1,5 @@
+// Creator:  VitoIKA922
+// Date:     07-12-2023
 #include <iostream>     // cout, cin
 #include <vector>       // vector
 #include <algorithm>    // find_if and find and sort and unique 
@@ -5,7 +7,7 @@
 #include <random>       // default_random_engine
 
 using namespace std;
-
+// Farben für die Ausgabe
 #define color0 "\033[0m"  // Reset
 #define color1 "\033[31m" // Rot
 #define color2 "\033[32m" // Grün
@@ -13,6 +15,7 @@ using namespace std;
 #define color4 "\033[34m" // Blau
 #define color5 "\033[35m" // Magenta
 #define color6 "\033[36m" // Cyan
+
 
 class Ticket    
 {
@@ -220,21 +223,21 @@ private:
 
     void customRun()
     {
-        int n = 0; //Anzahl der Zahlen
-        int r = 0; //Zahlenbereich
-        int w = 0; //Breite der Ausgabe
+        int custom_n = 0; //Anzahl der Zahlen
+        int custom_r = 0; //Zahlenbereich
+        int custom_w = 0; //Breite der Ausgabe
         
         cout << "Lotto" << endl;
 
         cout << "Wie viele Zahlen sollen gezogen werden?" << endl;
-        cin >> n;        cout << "Wie viele Zahlen sollen zur Auswahl stehen?" << endl;
+        cin >> custom_n;        cout << "Wie viele Zahlen sollen zur Auswahl stehen?" << endl;
         
-        cin >> r;
+        cin >> custom_r;
         
         cout << "Wie viele Zahlen sollen pro Reihe angezeigt werden?" << endl;
-        cin >> w;
+        cin >> custom_w;
         
-        customRunXofY(n, r, w);
+        customRunXofY(custom_n, custom_r, custom_w);
     }
    
 };
