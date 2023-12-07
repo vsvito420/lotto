@@ -34,7 +34,7 @@ public:
     Ticket(int numCount, int numRange, int width) : t_numCount(numCount), t_numRange(numRange), t_width(width)
     {
         m_number_amount = generateLottonumbers(t_numCount, t_numRange);
-        cout << color4 << "class "<< color3 << "Ticket:\t " << color0 <<"\t constructed" << color0 << endl;
+        cout << color4 << "class "<< color3 << "Ticket:\t. " << color0 <<"\t constructed" << color0 << endl;
     }
 
     ~Ticket()
@@ -90,7 +90,7 @@ public:
     ~Table()
     {
         // Destructor code here
-        cout << color4 << "class "<< color1 << "Table:\t "<< color0 <<"deconstructed" << color0 << endl;
+        cout << color4 << "class "<< color3 << "Table:\t "<< color0 <<"deconstructed" << color0 << endl;
     }
 
 
@@ -161,7 +161,7 @@ public:
     ~Program()
     {
         // Destructor code here
-        cout << color4 << "class "<< color1 <<"Program:\t "<< color0 <<"\t deconstructed" << color0 << endl;
+        cout << color4 << "class "<< color3 <<"Program:\t "<< color0 <<"\t deconstructed" << color0 << endl;
     }
 
     void menu()
@@ -169,6 +169,11 @@ public:
         cout << color4 << "Game Start:" << color0 << endl;
         cout << "_____________________________"<< endl;
         run();
+    }
+
+    void customRunLoop()
+    {
+        loop();
     }
 private:
     
@@ -182,12 +187,13 @@ private:
             cout << color4 << "\t\t2: preset 5 | 50" << color0 << endl;
             cout << color4 << "\t\t3: preset 2 | 12" << color0 << endl;
             cout << color5 << "\t\t4: customRunXofY" << color0 << endl;
+            cout << color5 << "\t\t5: customRunLoop" << color0 << endl;
             cout << color6 << "\t\t0: Beenden" << color0 << endl;
             cin >> choice;
             switch (choice)
             {
             case 0:
-                cout << "Beenden" << endl;
+                cout << color3 << "Beenden" << color0 << endl;
                 break;
             case 1:
                 cout << "6 aus 49" << endl;
@@ -207,6 +213,11 @@ private:
             case 4:
                 cout << color4 << "customRun" << color0 << endl;
                 customRun();
+                break;
+            case 5:
+                cout << color4 << "customRunLoop" << color0 << endl;
+                customRunLoop();
+                break;
             default:
                 cout << "Falsche Eingabe" << endl;
                 break;
@@ -239,13 +250,40 @@ private:
         
         customRunXofY(custom_n, custom_r, custom_w);
     }
+
+    void loop()
+    {
+        int custom_n = 0; //Anzahl der Zahlen
+        int custom_r = 0; //Zahlenbereich
+        int custom_w = 0; //Breite der Ausgabe
+        
+        cout << "Lotto" << endl;
+
+        cout << "Wie viele Zahlen sollen gezogen werden?" << endl;
+        cin >> custom_n;        cout << "Wie viele Zahlen sollen zur Auswahl stehen?" << endl;
+        
+        cin >> custom_r;
+        
+        cout << "Wie viele Zahlen sollen pro Reihe angezeigt werden?" << endl;
+        cin >> custom_w;
+        bool cingnore = 1;
+        do
+        {
+            customRunXofY(custom_n, custom_r, custom_w);
+            cout << "Press Enter to generate new Ticket or write 0 to exit " << endl;
+            cin.ignore() >> cingnore;
+        } while (cingnore != 0);
+        
+    }
    
 };
 
 int main()
 {
     Program program;
+    
     program.menu();
     
+    cout << "Program exited successfully" << endl;
     return 0;
 }
