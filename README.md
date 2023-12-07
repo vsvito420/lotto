@@ -1,8 +1,6 @@
 
 # Lotto Aufgaben Litera:
- ```text
- Vito: Ich arbeite an Lotto Program version 7 :)
-```
+
 ### Gemacht mit <3 in Markdown
 
 **Aufgabenblatt 30**
