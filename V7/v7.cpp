@@ -43,6 +43,24 @@ public:
         cout << color4 << "class "<< color3 << "Ticket:\t  "<< color0 <<"\t deconstructed" << color0 << endl;
     }
 
+    map<int, int> inputLottoTicketManual()    //Eingabe der Zahlen
+    {
+        map<int, int> number_amount; //Zahlen und Anzahl
+        vector<int> numbers;         //Zahlen
+        int number = 0;
+        for (int i = 1; i <= t_numCount; i++)
+        {
+            cout << "Bitte geben Sie die " << i << ". Zahl ein:" << endl;
+            cin >> number;
+            numbers.push_back(number); //Zahlen in den vector einfügen
+        }
+        for (int i = 0; i < t_numCount; i++)
+        {
+            number_amount[numbers[i]] = 1; //Zahlen in die map einfügen
+        }
+        return number_amount;
+    }
+
     map<int, int> generateLottonumbers(int numCount, int numRange) 
     {
         map<int, int> number_amount; //Zahlen und Anzahl
@@ -188,6 +206,7 @@ private:
             cout << color4 << "\t\t3: preset 2 | 12" << color0 << endl;
             cout << color5 << "\t\t4: customRunXofY" << color0 << endl;
             cout << color5 << "\t\t5: customRunLoop" << color0 << endl;
+            cout << color3 << "\t\t6: user input" << color0 << endl;
             cout << color6 << "\t\t0: Beenden" << color0 << endl;
             cin >> choice;
             switch (choice)
@@ -219,8 +238,9 @@ private:
                 customRunLoop();
                 break;
             default:
-                cout << "Falsche Eingabe" << endl;
+                cout << color1 << "Falsche Eingabe" << color0 << endl;
                 break;
+                
             }
         } while (choice != 0);
     }
@@ -266,13 +286,12 @@ private:
         
         cout << "Wie viele Zahlen sollen pro Reihe angezeigt werden?" << endl;
         cin >> custom_w;
-        bool cingnore = 1;
+        
         do
         {
             customRunXofY(custom_n, custom_r, custom_w);
-            cout << "Press Enter to generate new Ticket or write 0 to exit " << endl;
-            cin.ignore() >> cingnore;
-        } while (cingnore != 0);
+            cin.ignore();
+        } while (true);
         
     }
    
