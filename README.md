@@ -1,21 +1,19 @@
 
 # Lotto Aufgaben Litera:
 
-### Gemacht mit <3 in Markdown
+ ```text
+ Vito: Ich arbeite an Lotto Program version 7 :)
+```
 
 **Aufgabenblatt 30**
-
 1. *Routine*
 
-Schreiben Sie eine **Routine, die 6 aus 49 oder Eurolotto ermöglicht**. Nutzen Sie dazu die folgende Bibliothek für Zufallszahlen.
+	Schreiben Sie eine **Routine, die 6 aus 49 oder Eurolotto ermöglicht**. Nutzen Sie dazu die folgende Bibliothek für Zufallszahlen.
 
-```c
-
-#include <stdlib.h>
-
-int zufall = rand();
-
-```
+	```c
+	#include <stdlib.h>
+	int zufall = rand();
+	```
 
 2. *Ermöglichen Sie die **Auswahl, wie viele Tippscheine erstellt werden sollen**.*
 
@@ -23,11 +21,11 @@ int zufall = rand();
 
 3. *Erstellen Sie ein **grundlegendes Menü**:*
 
-- Lotto **6** aus **49**
+	- Lotto **6** aus **49**
 
-- **Euro**lotto
+	- **Euro**lotto
 
-- **Ende** des Programmes
+	- **Ende** des Programmes
 
   
 
