@@ -23,21 +23,21 @@ private:
     int t_numCount; //Anzahl der Zahlen
     int t_numRange; //Zahlenbereich
     int t_width;    //Breite der Ausgabe
-    map<int, int> m_number_amount; //Zahlen und Anzahl
+    map<int, int> m_map_numberAmount; //Zahlen und Anzahl
 
 public:
     
-    Ticket() : t_numCount(0), t_numRange(0), t_width(0) {
-        cout << color4 << "class "<< color3 << "Ticket:\t "<< color0 <<"constructed" << color0 << endl;
+    Ticket() : t_numCount(0), t_numRange(0), t_width(0) {   // Constructor
+        cout << color4 << "class "<< color3 << "Ticket:\t "<< color0 <<"constructed" << color0 << endl; 
     };
 
-    Ticket(int numCount, int numRange, int width) : t_numCount(numCount), t_numRange(numRange), t_width(width)
+    Ticket(int numCount, int numRange, int width) : t_numCount(numCount), t_numRange(numRange), t_width(width) // Constructor
     {
-        m_number_amount = generateLottonumbers(t_numCount, t_numRange);
+        m_map_numberAmount = generateLottonumbers(t_numCount, t_numRange);
         cout << color4 << "class "<< color3 << "Ticket:\t. " << color0 <<"\t constructed" << color0 << endl;
     }
 
-    ~Ticket()
+    ~Ticket() // Destructor
     {
         // Destructor code here
         cout << color4 << "class "<< color3 << "Ticket:\t  "<< color0 <<"\t deconstructed" << color0 << endl;
@@ -45,25 +45,25 @@ public:
 
     map<int, int> inputLottoTicketManual()    //Eingabe der Zahlen
     {
-        map<int, int> number_amount; //Zahlen und Anzahl
-        vector<int> numbers;         //Zahlen
+        map<int, int> map_numberAmount; //Zahlen und Anzahl
+        vector<int> numbers;            //Zahlen
         int number = 0;
         for (int i = 1; i <= t_numCount; i++)
         {
             cout << "Bitte geben Sie die " << i << ". Zahl ein:" << endl;
             cin >> number;
-            numbers.push_back(number); //Zahlen in den vector einfügen
+            numbers.push_back(number); // Zahlen in den vector einfügen
         }
         for (int i = 0; i < t_numCount; i++)
         {
-            number_amount[numbers[i]] = 1; //Zahlen in die map einfügen
+            map_numberAmount[numbers[i]] = 1; // Zahlen in die map einfügen
         }
-        return number_amount;
+        return map_numberAmount;
     }
 
     map<int, int> generateLottonumbers(int numCount, int numRange) 
     {
-        map<int, int> number_amount; //Zahlen und Anzahl
+        map<int, int> map_numberAmount; //Zahlen und Anzahl
         vector<int> numbers;         //Zahlen
         for (int i = 1; i <= numRange; i++)
         {
@@ -74,13 +74,13 @@ public:
         shuffle(numbers.begin(), numbers.end(), generator); //Zahlen im vector mischen
         for (int i = 0; i < numCount; i++)
         {
-            number_amount[numbers[i]] = 1; //Zahlen in die map einfügen
+            map_numberAmount[numbers[i]] = 1; //Zahlen in die map einfügen
         }
-        return number_amount;  
+        return map_numberAmount;  
     }
 
     map<int, int>& getNumberAmount() {
-        return m_number_amount;
+        return m_map_numberAmount;
     }
 
     int getNumCount()  {
@@ -112,16 +112,16 @@ public:
     }
 
 
-    void printTable( Ticket &ticket) // print the table of Ticket
+    void printTable(Ticket& ticket) // print the table of Ticket
     {
         cout << "Ihr Lottoschein:" << endl;
         for (int k = 1; k < ticket.getWidth(); k++)
         {
             cout << "=========";
         }
-        cout << "\tLegende: "<< "(" << color2 << "Zahl" << color0 << ") x " << color1 << "Anzahl " << color0 << endl;
+        cout << "\tLegende: " << "(" << color2 << "Zahl" << color0 << ") x " << color1 << "Anzahl " << color0 << endl;
         cout << endl;
-        
+
         for (int i = 1; i <= ticket.getNumRange(); i++)
         {
             if (i < 10)
@@ -140,7 +140,16 @@ public:
             {
                 cout << color0;
             }
-            cout << getNumberAmount(ticket, i) << color0 << "\t";
+            int count = getNumberAmount(ticket, i);
+            if (count == 0)
+            {
+                cout << "⁰";
+            }
+            else
+            {
+                cout << toSuperscript(count);
+            }
+            cout << "\t";
             // every ticketWidth-th number a new line
             if (i % ticket.getWidth() == 0)
             {
@@ -153,6 +162,49 @@ public:
         }
         cout << endl;
         cout << endl;
+    }
+
+    string toSuperscript(int number)
+    {
+        string superscript;
+        string digits = to_string(number);
+        for (char digit : digits)
+        {
+            switch (digit)
+            {
+            case '0':
+                superscript += "⁰";
+                break;
+            case '1':
+                superscript += "¹";
+                break;
+            case '2':
+                superscript += "²";
+                break;
+            case '3':
+                superscript += "³";
+                break;
+            case '4':
+                superscript += "⁴";
+                break;
+            case '5':
+                superscript += "⁵";
+                break;
+            case '6':
+                superscript += "⁶";
+                break;
+            case '7':
+                superscript += "⁷";
+                break;
+            case '8':
+                superscript += "⁸";
+                break;
+            case '9':
+                superscript += "⁹";
+                break;
+            }
+        }
+        return superscript;
     }
 
 private:
