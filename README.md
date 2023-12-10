@@ -2,7 +2,7 @@
 # Lotto Aufgaben Litera:
 
  ```text
- Vito: Ich arbeite an Lotto Program version 7 :)
+ Vito: Ich arbeite an Lotto Program version 8 :)
 ```
 
 **Aufgabenblatt 30**
