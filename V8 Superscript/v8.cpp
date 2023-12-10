@@ -141,7 +141,7 @@ public:
                 cout << color0;
             }
             int count = getNumberAmount(ticket, i);
-            if (count == 0)
+            if (count == 0)     
             {
                 cout << "⁰";
             }
