@@ -158,7 +158,7 @@ public:
         }
         for (int k = 1; k < ticket.getWidth(); k++)
         {
-            cout << "=========";
+            cout << color0 << "=========";
         }
         cout << endl;
         cout << endl;
@@ -172,35 +172,25 @@ public:
         {
             switch (digit)
             {
-            case '0':
-                superscript += "⁰";
+            case '0': superscript += "⁰";
                 break;
-            case '1':
-                superscript += "¹";
+            case '1': superscript += "¹";
                 break;
-            case '2':
-                superscript += "²";
+            case '2': superscript += "²";
                 break;
-            case '3':
-                superscript += "³";
+            case '3': superscript += "³";
                 break;
-            case '4':
-                superscript += "⁴";
+            case '4': superscript += "⁴";
                 break;
-            case '5':
-                superscript += "⁵";
+            case '5': superscript += "⁵";
                 break;
-            case '6':
-                superscript += "⁶";
+            case '6': superscript += "⁶";
                 break;
-            case '7':
-                superscript += "⁷";
+            case '7': superscript += "⁷";
                 break;
-            case '8':
-                superscript += "⁸";
+            case '8': superscript += "⁸";
                 break;
-            case '9':
-                superscript += "⁹";
+            case '9': superscript += "⁹";
                 break;
             }
         }
