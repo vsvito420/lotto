@@ -161,6 +161,7 @@ public:
         for (int k = 1; k < ticket.getWidth(); k++)
         {
             cout << color0 << "=========";
+            cout << color0 << "=========";
         }
         cout << "\n";
         cout << "\n";
