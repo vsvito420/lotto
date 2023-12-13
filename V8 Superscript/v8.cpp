@@ -1,51 +1,45 @@
 // Creator:  VitoIKA922
 // Date:     10-12-2023
-#include <iostream>     // cout, cin, "\n"
-#include <vector>       // vector
-#include <algorithm>    // find_if and find and sort and unique 
-#include <map>          // map
-
-#include <random>       // default_random_engine
-
-using namespace std;
+#include <iostream>         // cout, cin, "\n"
+#include <vector>           // vector
+#include <algorithm>        // find_if and find and sort and unique 
+#include <map>              // map
+#include <random>           // default_random_engine
 // Farben für die Ausgabe
-#define color0 "\033[0m"  // Reset
-#define color1 "\033[31m" // Rot
-#define color2 "\033[32m" // Grün
-#define color3 "\033[33m" // Gelb
-#define color4 "\033[34m" // Blau
-#define color5 "\033[35m" // Magenta
-#define color6 "\033[36m" // Cyan
-
-
-class Ticket    
+#define color0 "\033[0m"    // Reset
+#define color1 "\033[31m"   // Rot
+#define color2 "\033[32m"   // Grün
+#define color3 "\033[33m"   // Gelb
+#define color4 "\033[34m"   // Blau
+#define color5 "\033[35m"   // Magenta
+#define color6 "\033[36m"   // Cyan
+using namespace std;
+class Ticket                // Store the ticket
 {
 private:
-    int t_numCount; // Anzahl der Zahlen
-    int t_numRange; // Zahlenbereich
-    int t_width;    // Breite der Ausgabe
-    map<int, int> m_map_numberAmount; // Count how othen numbers were selected
-    
+    int t_numCount;         // Anzahl der Zahlen
+    int t_numRange;         // Zahlenbereich
+    int t_numWidth;         // Anzahl der Zahlen pro Zeile
+    map<int, int> m_map_numberAmount; // MAP(Zahl): Anzahl
 
 public:
-    
-    Ticket() : t_numCount(0), t_numRange(0), t_width(0) {   // Constructor
+    // Constructor
+    Ticket() : t_numCount(0), t_numRange(0), t_numWidth(0) {   
         cout << color4 << "class "<< color3 << "Ticket:\t "<< color0 <<"\tconstructed" << color0 << "\n"; 
     };
-
-    Ticket(int numCount, int numRange, int width) : t_numCount(numCount), t_numRange(numRange), t_width(width) // Parameterized Constructor
+    // Parameterized Constructor
+    Ticket(int numCount, int numRange, int width) : t_numCount(numCount), t_numRange(numRange), t_numWidth(width) 
     {
-        m_map_numberAmount = generateLottonumbers(t_numCount, t_numRange);
+        m_map_numberAmount = generateNumbers(t_numCount, t_numRange);
         cout << color4 << "class "<< color3 << "Ticket:\t. " << color0 <<"\t constructed" << color0 << "\n";
     }
-
-    ~Ticket() // Destructor
+    // Destructor
+    ~Ticket() 
     {
-        // Destructor code here
         cout << color4 << "class "<< color3 << "Ticket:\t  "<< color0 <<"\t deconstructed" << color0 << "\n";
     }
-
-    map<int, int> inputLottoTicketManual()      //Eingabe der Zahlen
+    // Map(Zahl): Anzahl
+    map<int, int> inputLottoTicketManual()
     {
         map<int, int> map_numberAmount;         //Zahlen und Anzahl
         vector<int> numbers;                    //Zahlen
@@ -54,51 +48,51 @@ public:
         {
             cout << "Bitte geben Sie die " << i << ". Zahl ein:" << "\n";
             cin >> number;
-            numbers.push_back(number);          // Zahlen hinzufügen
+            numbers.push_back(number);          // Add number to vector
         }
         for (int i = 0; i < t_numCount; i++)
         {
-            map_numberAmount[numbers[i]] = 1;   // Zahlen in die map einfügen
+            map_numberAmount[numbers[i]] = 1;   // Insert number into map
         }
         return map_numberAmount;
     }
 
-    map<int, int> generateLottonumbers(int numCount, int numRange) 
+    map<int, int> generateNumbers(int numCount, int numRange)   // generate random numbers
     {
-        map<int, int> map_numberAmount;         // Map(Zahl): Anzahl
-        vector<int> numbers;                    // Zahlen
+        map<int, int> map_numberAmount;                         // Map(Zahl): Anzahl
+        vector<int> numbers;                                    // Zahlen
         for (int i = 1; i <= numRange; i++)
         {
-            numbers.push_back(i);               //Zahlen in den vector einfügen
+            numbers.push_back(i);                               //Zahlen in den vector einfügen
         }
         random_device rd;
         default_random_engine generator(rd());
-        shuffle(numbers.begin(), numbers.end(), generator); //Zahlen im vector mischen
+        shuffle(numbers.begin(), numbers.end(), generator);     //Zahlen im vector mischen
         for (int i = 0; i < numCount; i++)
         {
-            map_numberAmount[numbers[i]] = 1;   //Zahlen in die map einfügen
+            map_numberAmount[numbers[i]] = 1;                   //Zahlen in die map einfügen
         }
         return map_numberAmount;  
     }
 
-    map<int, int>& getNumberAmount() {          //Zahlen und Anzahl
+    map<int, int>& getNumberAmount() {                          //Zahlen und Anzahl
         return m_map_numberAmount;
     }
 
-    int getNumCount()  {                        //Anzahl der Zahlen
+    int getNumCount()  {                                        //Anzahl der Zahlen
         return t_numCount;
     }
 
-    int getNumRange()  {                        //Zahlenbereich
+    int getNumRange()  {                                        //Zahlenbereich
         return t_numRange;
     }
 
-    int getWidth()  {                           //Breite der Ausgabe
-        return t_width;
+    int getWidth()  {                                           //Breite der Ausgabe
+        return t_numWidth;
     }
 };
 
-class Table                                     // this class should be used to print the table of Ticket
+class Table                                                     // this class should be used to print the table of Ticket
 {
 public:
     //constructor
@@ -117,24 +111,31 @@ public:
     void printTable(Ticket& ticket) // print the table of Ticket
     {
         cout << "Ihr Lottoschein:" << "\n";
-        for (int k = 1; k < ticket.getWidth(); k++)
-        {
-            cout << "=========";
-        }
+        int width = ticket.getWidth();
+        int numRange = ticket.getNumRange();
+        map<int, int>& numberAmount = ticket.getNumberAmount();
+
+
         cout << "\nLegende: " << "" << color4 << "Zahl" << color0 << "^ " << color3 << "Anzahl " << color0 << "\n";
         cout << "\n";
 
-        for (int i = 1; i <= ticket.getNumRange(); i++)
+        for (int k = 1; k < width+1; k++) // print top line
         {
-            if (i < 10)
+            cout << color0 << "------\t";
+        }
+        cout << "\n";
+        for (int i = 1; i <= numRange; i++) // print the table
+        {
+            if (i < 10) // add a Zero before the number if it is smaller than 10 to make it look nice
             {
-                cout << color4 << " 0" << i << "" << color0 << "";
+                cout << color0 << "|"<< color4 << " 0" << i << "" << color0 << "";
             }
             else
             {
-                cout << color4 << " " << i << "" << color0 << "";
+                cout << color0 << "|"<< color4 << " " << i << "" << color0 << "";
             }
-            if (getNumberAmount(ticket, i) != 0)
+            int count = getNumberAmount(numberAmount, i);
+            if (count != 0)
             {
                 cout << color3;
             }
@@ -142,7 +143,6 @@ public:
             {
                 cout << color0;
             }
-            int count = getNumberAmount(ticket, i);
             if (count == 0)     
             {
                 cout << "⁰";
@@ -153,15 +153,14 @@ public:
             }
             cout << "\t";
             // every ticketWidth-th number a new line
-            if (i % ticket.getWidth() == 0)
+            if (i % width == 0)
             {
                 cout << "\n";
             }
         }
-        for (int k = 1; k < ticket.getWidth(); k++)
+        for (int k = 1; k < width+1; k++) // print bottom line
         {
-            cout << color0 << "=========";
-            cout << color0 << "=========";
+            cout << color0 << "------\t";
         }
         cout << "\n";
         cout << "\n";
@@ -171,41 +170,21 @@ public:
     {
         string superscript;
         string digits = to_string(number);
+        string superscripts[] = {"⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"};
         for (char digit : digits)
         {
-            switch (digit)
-            {
-            case '0':   superscript += "⁰";
-                break;
-            case '1':   superscript += "¹";
-                break;
-            case '2':   superscript += "²";
-                break;
-            case '3':   superscript += "³";
-                break;
-            case '4':   superscript += "⁴";
-                break;
-            case '5':   superscript += "⁵";
-                break;
-            case '6':   superscript += "⁶";
-                break;
-            case '7':   superscript += "⁷";
-                break;
-            case '8':   superscript += "⁸";
-                break;
-            case '9':   superscript += "⁹";
-                break;
-            }
+            int index = digit - '0';
+            superscript += superscripts[index];
         }
         return superscript;
     }
 
 private:
-    int getNumberAmount( Ticket &ticket, int number)
+    int getNumberAmount(const map<int, int>& numberAmount, int number)
     {
-        if (ticket.getNumberAmount().count(number) > 0)
+        if (numberAmount.count(number) > 0)
         {
-            return ticket.getNumberAmount().at(number);
+            return numberAmount.at(number);
         }
         return 0;
     }
@@ -245,13 +224,16 @@ private:
         do
         {
             cout << "Bitte wählen Sie ein Spiel aus:" << "\n";
-            cout << color4 << "\t\t1: preset 6 | 49" << color0 << "\n";
-            cout << color4 << "\t\t2: preset 5 | 50" << color0 << "\n";
-            cout << color4 << "\t\t3: preset 2 | 12" << color0 << "\n";
+            cout << color4 << "\t\t1: Normales Lotto | 6 aus 49" << color0 << "\n";
+            cout << color4 << "\t\t2: Eurolotto | 5 aus 50 + 2 aus 12" << color0 << "\n";
+            cout << color4 << "\t\t3: " << color0 << "\n";
             cout << color5 << "\t\t4: customRunXofY" << color0 << "\n";
             cout << color5 << "\t\t5: customRunLoop" << color0 << "\n";
             cout << color6 << "\t\t6: inputNumbersIntoPool" << color0 << "\n";
-            cout << color6 << "\t\t0: Beenden" << color0 << "\n";
+            cout << color6 << "\t\t7: " << color0 << "\n";
+            cout << color6 << "\t\t8: " << color0 << "\n";
+            cout << color6 << "\t\t9: " << color0 << "\n";
+            cout << color6     << "\t\t0: Beenden" << color0 << "\n";
             
             cin >> choice;
             switch (choice)
@@ -260,19 +242,24 @@ private:
                 cout << color3 << "Beenden" << color0 << "\n";
                 break;
             case 1:
+                cout << "Normales Lotto" << "\n";
                 cout << "6 aus 49" << "\n";
                 ticket = Ticket(6, 49, 7); // Constructor 
                 table.printTable(ticket);
                 break;
             case 2:
+                cout << "Eurolotto" << "\n";
+                cout << "Table 1" << "\n";
                 cout << "5 aus 50" << "\n";
                 ticket = Ticket(5, 50, 5);
                 table.printTable(ticket);
-                break;
-            case 3:
+                cout << "Table 2" << "\n";
                 cout << "2 aus 12" << "\n";
                 ticket = Ticket(2, 12, 6);
                 table.printTable(ticket);
+                break;
+            case 3:
+
                 break;
             case 4:
                 cout << color4 << "customRun" << color0 << "\n";
@@ -284,7 +271,16 @@ private:
                 break;
             case 6:
                 cout << color4 << "inputNumbersIntoPool" << color0 << "\n";
-                inputNumbersIntoPool();
+                inputNumbersIntoPool(30);
+                break;
+            case 7:
+                      cout << "break";
+                break;
+            case 8:
+                      cout << "break";                    
+                break;
+            case 9:
+                      cout << "break";  
                 break;
             default:
                 cout << color1 << "Falsche Eingabe" << color0 << "\n";
@@ -310,39 +306,29 @@ private:
     }
 /*
 Pool:
-Es können manuell bis zu 30 Zahlen eingegeben werden.
+Es können manuell bis zu 30 Zahlen eingegeben werden,diese werden dann der pool.
 Aus diesen Zahlen werden dann die Zufallszahlen für 6aus49 und 5aus50+2aus12 gezogen.
 Die Eingabe erfolgt solange bis -1 eingegeben wird.
 Bei der Eingabe werden die Zahlen auf überpfüft ob diese schon eingegeben wurden.
 Im Fall einer doppelten Eingabe wird eine Fehlermeldung ausgegeben es ernuet zu versuchen.
 */
-    void inputNumbersIntoPool()
+    void inputNumbersIntoPool(int poolSize)
     {
-        vector<int> pool;
-        int number = 0;
-        do
-        {
-            cout << "Bitte geben Sie eine Zahl ein:" << "\n";
-            cin >> number;
-            if (number == -1)
-            {
-                break;
-            }
-            if (find(pool.begin(), pool.end(), number) != pool.end())
-            {
-                cout << "Diese Zahl wurde bereits eingegeben. Bitte versuchen Sie es erneut." << "\n";
-            }
-            else
-            {
-                pool.push_back(number);
-            }
-        } while (true);
-        cout << "Die Zahlen im Pool sind:" << "\n";
-        for (int i = 0; i < pool.size(); i++)
-        {
-            cout << pool[i] << "\t";
-        }
-        cout << "\n";
+        int custom_n = 0; //Anzahl der Zahlen
+        int custom_r = 0; //Zahlenbereich
+        int custom_w = 0; //Breite der Ausgabe
+        
+        cout << "Lotto" << "\n";
+
+        cout << "Wie viele Zahlen sollen gezogen werden?" << "\n";
+        cin >> custom_n;        cout << "Wie viele Zahlen sollen zur Auswahl stehen?" << "\n";
+        
+        cin >> custom_r;
+        
+        cout << "Wie viele Zahlen sollen pro Reihe angezeigt werden?" << "\n";
+        cin >> custom_w;
+        
+        customRunXofY(custom_n, custom_r, custom_w);
     }
 
     void customRun()
