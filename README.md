@@ -70,11 +70,11 @@
 
 	- Bilden Sie entsprechende
 
-	- Konstruktoren,
+    	- Konstruktoren,
 
-	- Destruktoren,
+    	- Destruktoren,
 
-	- Set und Header-Datei.
+    	- Set und Header-Datei.
 
 2. Bilden Sie dazu jeweils eine **Header- und eine Implementierungsdatei** für jedes System.
 
