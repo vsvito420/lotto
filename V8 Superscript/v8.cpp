@@ -65,8 +65,9 @@ public:
         {
             numbers.push_back(i);                               //Zahlen in den vector einfügen
         }
-        random_device rd;
-        default_random_engine generator(rd());
+
+        random_device whatIsRandomAnyways;
+        default_random_engine generator(whatIsRandomAnyways());
         shuffle(numbers.begin(), numbers.end(), generator);     //Zahlen im vector mischen
         for (int i = 0; i < numCount; i++)
         {
@@ -100,13 +101,11 @@ public:
     {
         cout << color4 << "class "<< color3 << "Table:\t "<< color0 <<"\tconstructed" << color0 << "\n";
     }
-    //destructor
+    // Destructor code here
     ~Table()
     {
-        // Destructor code here
         cout << color4 << "class "<< color3 << "Table:\t\t "<< color0 <<"deconstructed" << color0 << "\n";
     }
-
 
     void printTable(Ticket& ticket) // print the table of Ticket
     {
@@ -114,7 +113,6 @@ public:
         int width = ticket.getWidth();
         int numRange = ticket.getNumRange();
         map<int, int>& numberAmount = ticket.getNumberAmount();
-
 
         cout << "\nLegende: " << "" << color4 << "Zahl" << color0 << "^ " << color3 << "Anzahl " << color0 << "\n";
         cout << "\n";
@@ -124,40 +122,34 @@ public:
             cout << color0 << "------\t";
         }
         cout << "\n";
+
         for (int i = 1; i <= numRange; i++) // print the table
         {
+            cout << color0 << "|"<< color4 << " ";
             if (i < 10) // add a Zero before the number if it is smaller than 10 to make it look nice
             {
-                cout << color0 << "|"<< color4 << " 0" << i << "" << color0 << "";
+                cout << "0";
             }
-            else
-            {
-                cout << color0 << "|"<< color4 << " " << i << "" << color0 << "";
-            }
+            cout << i << "" << color0 << "";
+
             int count = getNumberAmount(numberAmount, i);
             if (count != 0)
             {
-                cout << color3;
+                cout << color3 << toSuperscript(count);
             }
             else
             {
-                cout << color0;
-            }
-            if (count == 0)     
-            {
-                cout << "⁰";
-            }
-            else
-            {
-                cout << toSuperscript(count);
+                cout << color0 << "⁰";
             }
             cout << "\t";
+
             // every ticketWidth-th number a new line
             if (i % width == 0)
             {
                 cout << "\n";
             }
         }
+
         for (int k = 1; k < width+1; k++) // print bottom line
         {
             cout << color0 << "------\t";
@@ -180,20 +172,21 @@ public:
     }
 
 private:
-    int getNumberAmount(const map<int, int>& numberAmount, int number)
+    int getNumberAmount(const map<int, int>& numberAmount, int number) // get the amount of a number
     {
-        if (numberAmount.count(number) > 0)
+        auto it = numberAmount.find(number);
+        if (it != numberAmount.end()) // if the number is in the map
         {
-            return numberAmount.at(number);
+            return it->second; // return the amount of the number
         }
-        return 0;
+        return 0;                           // else return 0
     }
 };
 
-class Program // Manage the program
+class Program       // Manages the program
 {
-    Table table;    // Table object
-    Ticket ticket;  // Ticket object
+    Table table;    // Creates table  object
+    Ticket ticket;  // Creates ticket object
 public:
     Program() // Constructor
     {
@@ -202,7 +195,6 @@ public:
 
     ~Program()
     {
-        // Destructor code here
         cout << color4 << "class "<< color3 <<"Program:\t "<< color0 <<"\t deconstructed" << color0 << "\n";
     }
 
