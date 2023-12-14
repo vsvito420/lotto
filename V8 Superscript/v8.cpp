@@ -4,10 +4,9 @@
 #include <vector>       // vector
 #include <algorithm>    // find_if and find and sort and unique 
 #include <map>          // map
-
 #include <random>       // default_random_engine
+using namespace std; 
 
-using namespace std;
 // Farben für die Ausgabe
 #define color0 "\033[0m"  // Reset
 #define color1 "\033[31m" // Rot
