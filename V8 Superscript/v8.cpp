@@ -60,6 +60,7 @@ public:
     // Map(Zahl): Anzahl
     map<int, int> inputLottoTicketManual()
     {
+        cout << "manual" << "\n";
         map<int, int> map_numberAmount;         //Zahlen und Anzahl
         vector<int> numbers;                    //Zahlen
         int number = 0;
