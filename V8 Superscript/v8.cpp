@@ -21,6 +21,25 @@ private:
     int t_numRange;         // Zahlenbereich
     int t_numWidth;         // Anzahl der Zahlen pro Zeile
     map<int, int> m_map_numberAmount; // MAP(Zahl): Anzahl
+protected:
+    map<int, int> generateNumbers(int numCount, int numRange)   // generate random numbers
+    {
+        map<int, int> map_numberAmount;                         // Map(Zahl): Anzahl
+        vector<int> numbers;                                    // Zahlen
+        for (int i = 1; i <= numRange; i++)
+        {
+            numbers.push_back(i);                               //Zahlen in den vector einfügen
+        }
+
+        random_device whatIsRandomAnyways;
+        default_random_engine generator(whatIsRandomAnyways());
+        shuffle(numbers.begin(), numbers.end(), generator);     //Zahlen im vector mischen
+        for (int i = 0; i < numCount; i++)
+        {
+            map_numberAmount[numbers[i]] = 1;                   //Zahlen in die map einfügen
+        }
+        return map_numberAmount;  
+    }
 
 public:
     // Constructor
@@ -57,24 +76,7 @@ public:
         return map_numberAmount;
     }
 
-    map<int, int> generateNumbers(int numCount, int numRange)   // generate random numbers
-    {
-        map<int, int> map_numberAmount;                         // Map(Zahl): Anzahl
-        vector<int> numbers;                                    // Zahlen
-        for (int i = 1; i <= numRange; i++)
-        {
-            numbers.push_back(i);                               //Zahlen in den vector einfügen
-        }
-
-        random_device whatIsRandomAnyways;
-        default_random_engine generator(whatIsRandomAnyways());
-        shuffle(numbers.begin(), numbers.end(), generator);     //Zahlen im vector mischen
-        for (int i = 0; i < numCount; i++)
-        {
-            map_numberAmount[numbers[i]] = 1;                   //Zahlen in die map einfügen
-        }
-        return map_numberAmount;  
-    }
+    
 
     map<int, int>& getNumberAmount() {                          //Zahlen und Anzahl
         return m_map_numberAmount;
