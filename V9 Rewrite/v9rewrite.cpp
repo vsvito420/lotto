@@ -21,6 +21,7 @@ private:
     int t_numRange;                   // Zahlenbereich
     int t_numWidth;                   // Anzahl der Zahlen pro Zeile
     map<int, int> m_map_numberAmount; // MAP(Zahl): Anzahl
+
 protected:
     map<int, int> generateNumbers(int numCount, int numRange) // generate random numbers
     {
@@ -50,8 +51,8 @@ public:
     // Parameterized Constructor
     Ticket(int numCount, int numRange, int width) : t_numCount(numCount), t_numRange(numRange), t_numWidth(width)
     {
-        m_map_numberAmount = generateNumbers(t_numCount, t_numRange);
         cout << color4 << "class " << color3 << "Ticket:\t. " << color0 << "\t constructed" << color0 << "\n";
+        m_map_numberAmount = generateNumbers(t_numCount, t_numRange);
     }
     // Destructor
     ~Ticket()
@@ -115,7 +116,7 @@ public:
         cout << color4 << "class " << color3 << "Table:\t\t " << color0 << "deconstructed" << color0 << "\n";
     }
 
-    void printTable(Ticket &ticket) // print the table of Ticket
+    void print(Ticket &ticket) // print the table of Ticket
     {
         cout << "Ihr Lottoschein:"
              << "\n";
@@ -214,10 +215,7 @@ public:
         run();
     }
 
-    void customRunLoop()
-    {
-        loop();
-    }
+
 
 private:
     void run()
@@ -231,11 +229,7 @@ private:
             cout << color4 << "\t\t2: Eurolotto | 5 aus 50 + 2 aus 12" << color0 << "\n";
             cout << color4 << "\t\t3: " << color0 << "\n";
             cout << color5 << "\t\t4: customRunXofY" << color0 << "\n";
-            cout << color5 << "\t\t5: customRunLoop" << color0 << "\n";
-            cout << color6 << "\t\t6: inputNumbersIntoPool" << color0 << "\n";
-            cout << color6 << "\t\t7: " << color0 << "\n";
-            cout << color6 << "\t\t8: " << color0 << "\n";
-            cout << color6 << "\t\t9: " << color0 << "\n";
+
             cout << color6 << "\t\t0: Beenden" << color0 << "\n";
 
             cin >> choice;
@@ -250,7 +244,7 @@ private:
                 cout << "6 aus 49"
                      << "\n";
                 ticket = Ticket(6, 49, 7); // Constructor
-                table.printTable(ticket);
+                table.print(ticket);
                 break;
             case 2:
                 cout << "Eurolotto"
@@ -260,37 +254,17 @@ private:
                 cout << "5 aus 50"
                      << "\n";
                 ticket = Ticket(5, 50, 5);
-                table.printTable(ticket);
+                table.print(ticket);
                 cout << "Table 2"
                      << "\n";
                 cout << "2 aus 12"
                      << "\n";
                 ticket = Ticket(2, 12, 6);
-                table.printTable(ticket);
+                table.print(ticket);
                 break;
             case 3:
-
-                break;
-            case 4:
                 cout << color4 << "customRun" << color0 << "\n";
                 customRun();
-                break;
-            case 5:
-                cout << color4 << "customRunLoop" << color0 << "\n";
-                customRunLoop();
-                break;
-            case 6:
-                cout << color4 << "inputNumbersIntoPool" << color0 << "\n";
-                inputNumbersIntoPool(30);
-                break;
-            case 7:
-                cout << "break";
-                break;
-            case 8:
-                cout << "break";
-                break;
-            case 9:
-                cout << "break";
                 break;
             default:
                 cout << color1 << "Falsche Eingabe" << color0 << "\n";
@@ -315,16 +289,9 @@ private:
         }
         cout << x << " aus " << y << "\n";
         ticket = Ticket(x, y, z); //
-        table.printTable(ticket);
+        table.print(ticket);
     }
-    /*
-    Pool:
-    Es können manuell bis zu 30 Zahlen eingegeben werden,diese werden dann der pool.
-    Aus diesen Zahlen werden dann die Zufallszahlen für 6aus49 und 5aus50+2aus12 gezogen.
-    Die Eingabe erfolgt solange bis -1 eingegeben wird.
-    Bei der Eingabe werden die Zahlen auf überpfüft ob diese schon eingegeben wurden.
-    Im Fall einer doppelten Eingabe wird eine Fehlermeldung ausgegeben es ernuet zu versuchen.
-    */
+
     void inputNumbersIntoPool(int poolSize)
     {
         int custom_n = 0; // Anzahl der Zahlen
@@ -373,33 +340,7 @@ private:
         customRunXofY(custom_n, custom_r, custom_w);
     }
 
-    void loop()
-    {
-        int custom_n = 0; // Anzahl der Zahlen
-        int custom_r = 0; // Zahlenbereich
-        int custom_w = 0; // Breite der Ausgabe
 
-        cout << "Lotto"
-             << "\n";
-
-        cout << "Wie viele Zahlen sollen gezogen werden?"
-             << "\n";
-        cin >> custom_n;
-        cout << "Wie viele Zahlen sollen zur Auswahl stehen?"
-             << "\n";
-
-        cin >> custom_r;
-
-        cout << "Wie viele Zahlen sollen pro Reihe angezeigt werden?"
-             << "\n";
-        cin >> custom_w;
-
-        do
-        {
-            customRunXofY(custom_n, custom_r, custom_w);
-            cin.ignore();
-        } while (true);
-    }
 };
 
 int main()
