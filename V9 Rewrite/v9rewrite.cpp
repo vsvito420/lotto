@@ -15,6 +15,7 @@ using namespace std;
 class Ticket // Lottery Ticket Lotto
 {
 private:
+    //Attributes
     int ticketAmountOfNumbers;
     int ticketRange;
     int ticketWidth;
@@ -47,7 +48,7 @@ public:
         map<int, int> mapTicketNumbers;
         random_device rd;
         mt19937 gen(rd());
-        uniform_int_distribution<> dis(1, ticketRange);
+            uniform_int_distribution<> dis(1, ticketRange);
         for (int i = 0; i < ticketAmountOfNumbers; ++i)
         {
             int randomNumber = dis(gen);
@@ -55,6 +56,12 @@ public:
         }
         return mapTicketNumbers;
     }
+    //setter
+    void setTicketAmountOfNumbers(int ticketAmountOfNumbers) { this->ticketAmountOfNumbers = ticketAmountOfNumbers; }
+    void setTicketRange(int ticketRange) { this->ticketRange = ticketRange; }
+    void setTicketWidth(int ticketWidth) { this->ticketWidth = ticketWidth; }
+    void setMapTicketNumbers(map<int, int> mapTicketNumbers) { this->mapTicketNumbers = mapTicketNumbers; }
+
     //getters
     int getTicketAmountOfNumbers() { return ticketAmountOfNumbers; }
     int getTicketRange() { return ticketRange; }
@@ -62,6 +69,7 @@ public:
     map<int, int> getMapTicketNumbers() { return mapTicketNumbers; }
     
     friend class Program;   
+    
 };
 
 class Table //prints map numbers and values 
@@ -72,24 +80,40 @@ class Table //prints map numbers and values
     //Standard Constructor
     Table(){ cout << color1 << "Table    constructed" << color0 << endl; }
     //Constructor with parameters
-    Table(Ticket &ticket, int tableWidth) { cout << color1 << "Table constructed with tableWidth " << tableWidth << color0 << endl;}
+    Table(Ticket &ticket, int tableWidth) 
+    { 
+        cout << color1 << "Table constructed with tableWidth " << tableWidth << color0 << endl;
+        printTicketAsTable(tableWidth);
+    }
         
     //Destructor
     ~Table(){ cout << color1 << "Table    destructed" << color0 << endl; }
 
-    //print all numbers from map
-    void printTable(int tableWidth)
+
+    //print all numbers (from 1 to Range) from map (also number 0)
+    void printTicketAsTable(int tableWidth)
     {
-        for (int i = 0; i < ticket.getTicketRange(); i++)
+        cout << color1 << "Table    printTicketAsTable" << color0 << endl;
+        for (int i = 0; i < tableWidth; i++)
         {
-            /* code */
+            cout << i << "\t";
         }
-        
+        cout << endl;
+        for (int i = 0; i < tableWidth; i++)
+        {
+            cout << "-----\t";
+        }
+        cout << endl;
+        for (int i = 0; i < tableWidth; i++)
+        {
+            cout << i << "\t";
+        }
+        cout << endl;
     }
 
     friend class Program;
 };
-
+//Program
 class Program
 {
     protected:
@@ -106,6 +130,8 @@ class Program
     {
         cout << color1 << "Program  constructed" << color0 << endl;
         createTicket(6, 49, 7);
+        printTicketAsTable(7);
+        
     }
     ~Program()  //Destructor
     {
