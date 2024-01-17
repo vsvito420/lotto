@@ -14,7 +14,7 @@
 #define color5 "\033[35m" // Magenta
 #define color6 "\033[36m" // Cyan
 using namespace std;
-class Ticket // Store the ticket
+class Ticket // Store the ticket and print it
 {
 private:
     int t_numCount;                   // Anzahl der Zahlen
@@ -33,11 +33,18 @@ protected:
 
         random_device whatIsRandomAnyways;
         default_random_engine generator(whatIsRandomAnyways());
-        shuffle(numbers.begin(), numbers.end(), generator); // Zahlen im vector mischen
+        shuffle(numbers.begin(), numbers.end(), generator); 
         for (int i = 0; i < numCount; i++)
         {
             map_numberAmount[numbers[i]] = 1; // Zahlen in die map einfügen
         }
+        //print
+        cout << "Zufallszahlen:\n";
+        for (int i = 0; i < numCount; i++)
+        {
+            cout << "\t"<< numbers[i] << " ";
+        }
+        cout << "\n";
         return map_numberAmount;
     }
 
