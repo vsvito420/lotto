@@ -49,7 +49,9 @@ Lotto vererbt 2 Klassen:
 */
 
 class Lotto {
-protected:
+    public:
+    friend class Menu;
+private:
     int Amount;
     int Range;
     int displayWidth;
@@ -66,12 +68,73 @@ protected:
         this->Range = Range;
         this->displayWidth = displayWidth;
     }
+
+    // Map function to generate numbers from 1 to Range
+    void drawNumbers(int Amount, int Range, int displayWidth){
+        map <int, int> keyValuePair; //key = Lotto Number, value = selected numbers
+        int randomNumber;
+        int i = 0;
+        while (i < Amount){
+            randomNumber = rand() % Range + 1;
+            if (keyValuePair.find(randomNumber) == keyValuePair.end()){ //check if randomNumber is already in map
+                keyValuePair.insert(pair<int, int>(randomNumber, 0)); //insert key value pair
+                i++;
+            }
+        }
+        displayNumbers(keyValuePair, displayWidth);
+    }
+
+    void displayNumbers(map <int, int> keyValuePair, int displayWidth){
+        int i = 0;
+        for (auto itr = keyValuePair.begin(); itr != keyValuePair.end(); itr++){
+            cout.width(displayWidth);
+            cout << itr->first;
+            i++;
+        }
+        cout << endl;
+    }
     
     map <int, int> keyValuePair; //key = Lotto Number, value = selected numbers
 };
 
 class Menu:Lotto {
 public:
+        //recursive manual input until -1 is entered or the amount of 30 numbers is reached
+    void manualInput(){
+        int input;
+        cout << "Enter a number between 1 and " << Range << endl;
+        cin >> input;
+        if (input == -1){                                   //check if input is -1
+            return;
+        }
+        else if (input > 0 && input <= Range){              //check if input is in range
+            keyValuePair.insert(pair<int, int>(input, 0)); //insert key value pair
+            manualInput();
+        }
+        else{
+            cout << "Wrong input" << endl;
+            manualInput();
+        }
+    }
+    void drawNumbers(int Amount, int Range, int displayWidth) {
+        vector<int> numberPool;
+        for (auto itr = keyValuePair.begin(); itr != keyValuePair.end(); itr++) {
+            numberPool.push_back(itr->first);
+        }
+
+        map<int, int> selectedNumbers;
+        int i = 0;
+        while (i < Amount && !numberPool.empty()) {
+            int randomIndex = rand() % numberPool.size();
+            int randomNumber = numberPool[randomIndex];
+            selectedNumbers.insert(pair<int, int>(randomNumber, 0));
+            numberPool.erase(numberPool.begin() + randomIndex);
+            i++;
+        }
+
+        displayNumbers(selectedNumbers, displayWidth);
+    }
+
     Menu(){
         Lotto lotto;
         int choice=0;
@@ -90,6 +153,20 @@ public:
                 displayWidth = 7;
                 lotto.drawNumbers(Amount, Range, displayWidth);
                 break;
+            case 2:
+                cout << "Lotto 6 aus 49" << endl;
+                Amount = 6;
+                Range = 49;
+                displayWidth = 7;
+                lotto.drawNumbers(Amount, Range, displayWidth);
+                break;
+            case 3:	
+                cout << "Manual input" << endl;
+                Amount = 6;
+                Range = 49;
+                displayWidth = 7;
+                manualInput();
+                break;
             case 4:
                 cout << "Custom" << endl;
                 cout << "How many numbers do you want to play?" << endl;
@@ -99,10 +176,7 @@ public:
                 cout << "How many numbers do you want to display?" << endl;
                 cin >> displayWidth;
                 break;
-            case 3:
-
-                break;
-            case 4:
+            case 5:
                 cout << "Exit" << endl;
                 break;
             default:
@@ -110,29 +184,11 @@ public:
                 break;
         }
     }
-    //recursive manual input until -1 is entered or the amount of 30 numbers is reached
-    void manualInput(){
-        int input;
-        cout << "Enter a number between 1 and " << Range << endl;
-        cin >> input;
-        if (input == -1){
-            return;
-        }
-        else if (input > 0 && input <= Range){
-            keyValuePair.insert(pair<int, int>(input, 0));
-            manualInput();
-        }
-        else{
-            cout << "Wrong input" << endl;
-            manualInput();
-        }
-    }
 };
 
 int main (){
     Menu start;
     start.manualInput();
-    
 
     return 0;
 }
