@@ -12,8 +12,8 @@ Ich möchte damit meine gewinnchancen erhöhen indem ich zahlen nehme die statis
 class Lotto
 {
 private:
-    vector<int> pool;
-    vector<int> userInput;
+    vector<int> poolA;
+    vector<int> poolB; 
     int rangeStart;
     int rangeEnd;
     int amountOfNumbers;
@@ -28,13 +28,15 @@ public:
     int  getAmountOfNumbers(){return amountOfNumbers;}
     void setDisplayWidth(int displayWidth){this->displayWidth = displayWidth;}
     int  getDisplayWidth(){return displayWidth;}
-    void setPool(vector<int> pool){this->pool = pool;}
-    vector<int> getPool(){return pool;}
-    void setUserInput(vector<int> userInput){this->userInput = userInput;}
-    vector<int> getUserInput(){return userInput;}
+    void setPoolA(vector<int> poolA){this->poolA = poolA;}
+    vector<int> getPoolA(){return poolA;}
+    void setpoolB(vector<int> poolB){this->poolB = poolB;}
+    vector<int> getpoolB(){return poolB;}
+    
     //default constructor
     Lotto(){
-        cout << "Lotto constructor" << endl;
+        cout << ">Lotto constructor" << endl;
+        poolA = vector<int>(49, 0);
         setRangeStart(0);
         setRangeEnd(0);
         setAmountOfNumbers(0);
@@ -42,13 +44,34 @@ public:
     }
     //parameterized constructor
     Lotto(int rangeStart, int rangeEnd, int amountOfNumbers, int displayWidth){
-        cout << "Lotto parameterized constructor" << endl;
+        cout << ">Lotto constructor w/ Parameters:|\t RangeStart: " << rangeStart << " RangeEnd: " << rangeEnd << " AmountOfNumbers: " << amountOfNumbers << " DisplayWidth: " << displayWidth << endl;
         setRangeStart(rangeStart);
         setRangeEnd(rangeEnd);
         setAmountOfNumbers(amountOfNumbers);
         setDisplayWidth(displayWidth);
     }
+    //destructor
+    ~Lotto(){
+        cout << ">Lotto destructor" << endl;
+    }
+    // Funktion zum Ausgeben des Vektors
+    void printVector() {
+        for (int i = 0; i < poolA.size(); ++i) {
+            // Füge eine führende Null hinzu, wenn die Zahl kleiner als 10 ist
+            if (i < 9) {
+                cout << "0";
+            }
+            cout << i + 1 << ",";
+            // Gehe zur nächsten Zeile nach jeder 7. Zahl
+            if ((i + 1) % 7 == 0) {
+                cout << "\n";
+            }
+        }
+    }
+
 };
+
+
 
 void beispielVector(){
     vector<int> v = {1, 2, 3, 4, 5};
@@ -64,5 +87,8 @@ void beispielVector(){
 }
 
 int main(){
+    Lotto lotto(1, 49, 6, 7); //RangeStart, RangeEnd, AmountOfNumbers, DisplayWidth
+    lotto.printVector();
+
     return 0;
 }
