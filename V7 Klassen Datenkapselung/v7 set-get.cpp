@@ -187,11 +187,11 @@ public:
         cout << color4 << "class " << color3 << "Controller:\t " << color0 << "\t deconstructed" << color0 << endl;
     }
 
-    void menu()
+    void menuLoop()
     {
         cout << color4 << "Game Start:" << color0 << endl;
         cout << "_____________________________" << endl;
-        run();
+        go();
     }
 
     void customRunLoop()
@@ -200,7 +200,7 @@ public:
     }
 
 private:
-    void run()
+    void go() // This is the Menu loop of the program.
     {
         int choice = 0;
         do
@@ -304,10 +304,10 @@ private:
 //------------------------------------------------------------------------------------------------------------------------
 int main()
 {
-    Controller program;
+    Controller go; 
 
-    program.menu();
+    go.menuLoop();
 
-    cout << "Controller exited successfully" << endl;
+    cout << "Program exited successfully" << endl;
     return 0;
 }
