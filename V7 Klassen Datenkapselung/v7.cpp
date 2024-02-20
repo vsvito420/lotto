@@ -23,7 +23,7 @@ private:
     int t_numCount; //Anzahl der Zahlen
     int t_numRange; //Zahlenbereich
     int t_width;    //Breite der Ausgabe
-    map<int, int> m_number_amount; //Zahlen und Anzahl
+    map<int, int>  m_number_amount; //Zahlen und Anzahl
 
 public:
     
@@ -68,7 +68,7 @@ public:
         for (int i = 1; i <= numRange; i++)
         {
             numbers.push_back(i); //Zahlen in den vector einfügen
-        }
+        } 
         random_device rd;
         default_random_engine generator(rd());
         shuffle(numbers.begin(), numbers.end(), generator); //Zahlen im vector mischen
