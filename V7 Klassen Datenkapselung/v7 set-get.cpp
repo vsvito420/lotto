@@ -1,11 +1,11 @@
 // Creator:  VitoIKA922
-// Date:     07-12-2023
+// Date:     31-01-2024
 #include <iostream>  // cout, cin
 #include <vector>    // vector
 #include <algorithm> // find_if and find and sort and unique
 #include <map>       // map
 #include <random>    // default_random_engine
-
+//------------------------------------------------------------------------------------------------------------------------
 using namespace std;
 // Farben für die Ausgabe
 #define color0 "\033[0m"  // Reset
@@ -15,7 +15,7 @@ using namespace std;
 #define color4 "\033[34m" // Blau
 #define color5 "\033[35m" // Magenta
 #define color6 "\033[36m" // Cyan
-
+//------------------------------------------------------------------------------------------------------------------------
 class Ticket
 {
 private:
@@ -98,7 +98,7 @@ public:
         return t_width;
     }
 };
-
+//------------------------------------------------------------------------------------------------------------------------
 class Table // this class should be used to print the table of Ticket
 {
 public:
@@ -168,29 +168,30 @@ private:
         return 0;
     }
 };
-
-class Program // Manage the program
+//------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------
+class Controller // Manage the program
 {
     Table table;
     Ticket ticket;
 
 public:
-    Program() // Constructor
+    Controller() // Constructor
     {
-        cout << color4 << "class " << color3 << "Program:\t " << color0 << "\t constructed" << color0 << endl;
+        cout << color4 << "class " << color3 << "Controller:\t " << color0 << "\t constructed" << color0 << endl;
     }
 
-    ~Program()
+    ~Controller()
     {
         // Destructor code here
-        cout << color4 << "class " << color3 << "Program:\t " << color0 << "\t deconstructed" << color0 << endl;
+        cout << color4 << "class " << color3 << "Controller:\t " << color0 << "\t deconstructed" << color0 << endl;
     }
 
-    void menu()
+    void menuLoop()
     {
         cout << color4 << "Game Start:" << color0 << endl;
         cout << "_____________________________" << endl;
-        run();
+        go();
     }
 
     void customRunLoop()
@@ -199,7 +200,7 @@ public:
     }
 
 private:
-    void run()
+    void go() // This is the Menu loop of the program.
     {
         int choice = 0;
         do
@@ -300,11 +301,12 @@ private:
     }
 };
 
+//------------------------------------------------------------------------------------------------------------------------
 int main()
 {
-    Program program;
+    Controller go; 
 
-    program.menu();
+    go.menuLoop();
 
     cout << "Program exited successfully" << endl;
     return 0;
