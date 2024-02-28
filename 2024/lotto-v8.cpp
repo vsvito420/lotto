@@ -32,6 +32,7 @@ public:
     // Destructor
     ~Lotto()
     {
+        cout << "Lotto object destroyed" << endl;
         numbers.clear();
     }
 
@@ -62,21 +63,21 @@ protected:
 
 
 
-    // display numbers in a Table
-    void displayNumbers() const
+    // display numbers in a Table by iterating through the range, and checking if the number is found in the vector, then print the number with brackets, else print the number with spaces
+    void displayNumbers() const 
     {
-        for (int num = rangeMin; num <= rangeMax; ++num)
+        for (int num = rangeMin; num <= rangeMax; ++num)                    // iterate through the range
         {
-            if (find(numbers.begin(), numbers.end(), num) != numbers.end())
+            if (find(numbers.begin(), numbers.end(), num) != numbers.end()) // if number is found in the vector
             {
-                cout << "[" << setw(2) << setfill('0') << num << "] ";
+                cout << "[" << setw(2) << setfill('0') << num << "] ";      // print number with brackets
             }
             else
             {
-                cout << " " << setw(2) << setfill('0') << num << "  ";
+                cout << " " << setw(2) << setfill('0') << num << "  ";      // print number with spaces
             }
 
-            if ((num - rangeMin + 1) % tableWidth == 0)
+            if ((num - rangeMin + 1) % tableWidth == 0)                     // new line if the number is divisible by table width
             {
                 cout << "\n";
             }
@@ -137,25 +138,39 @@ class Controller : public Lotto
     Lotto lotto;
 
 public:
-    Controller() : lotto(6, 49, 7)
+   // standard constructor
+    Controller() : lotto(0,0,0)
+    {
+        menu();
+    }
+    Controller(int size, int rangeMax, int tableWidth) : lotto(size, rangeMax, tableWidth)
     {
         lotto.callGenerateNumbers();
         lotto.callDisplayNumbers();
     }
-    /*
-    0: Exit
-    1: Generate numbers
-    2: lotto(6,49,7)
-    3: lotto(5,50,10)
-    4: lotto(2,12,6)
-    5: Custom input
-    */
+    // Destructor
+    ~Controller()
+    {
+        cout << "Controller object destroyed" << endl;
+    }
+    
+    void clearNumbers()
+    {
+        lotto.setNumbers({});
+    }
+
+    // Menu
     void menu()
     {  
         int choice;
         do
         {
-            cout << "0: Exit\n1: Generate numbers\n2: lotto(6,49,7)\n3: lotto(5,50,10)\n4: lotto(2,12,6)\n5: Custom input\n";
+            cout << "0: Exit\n1: Generate numbers\n";
+            cout << "2: lotto( 6,49, 7) - Normal Lotto\n";
+            cout << "3: lotto( 5,50,10) \n";
+            cout << "4: lotto( 2,12, 6) \n";
+            cout << "5: lotto( x, y, z) User input\n";
+            cout << "6: Clear numbers\n";
             cout << "Enter your choice: ";
             cin >> choice;
             switch (choice)
@@ -196,8 +211,13 @@ public:
                 lotto.userInputNumbers(limit);
                 lotto.callDisplayNumbers();
                 break;
+            case 6:
+                clearNumbers();
+                menu();
+                break;
             default:
                 cout << "Invalid choice!" << endl;
+                menu();
                 break;
             }
         } while (choice != 0);  
