@@ -7,16 +7,17 @@
 #include <iomanip>      // std::setw
 #include <sstream>      // std::stringstream
 #include <fstream>      // std::ofstream    
+#include <set>          // std::set
 using namespace std;
 
 class Lotto
 {
 private:
-    int size;         // amount of numbers to be picked
-    int rangeMin = 1; // start range from 1
-    int rangeMax;     // range
-    int tableWidth;   // table width
-    vector<int> numbers;
+    int size;           // amount of numbers to be picked
+    int rangeMin = 1;   // start range from 1
+    int rangeMax;       // range
+    int tableWidth;     // table width
+    vector<int> numbers;// vector to store numbers
 
 public:
     // Parameter constructor
@@ -61,7 +62,38 @@ protected:
         }
     }
 
+    void setPool()
+    {
+        set<int> pool;
+        int num;
+        int count = 0;
 
+        while (count < 30)
+        {
+            cout << "Enter a number between " << rangeMin << " and " << rangeMax << " (-1 to stop): ";
+            cin >> num;
+
+            if (num == -1)
+            {
+                break;
+            }
+
+            if (num < rangeMin || num > rangeMax)
+            {
+                cout << "Invalid number! Please enter a number between " << rangeMin << " and " << rangeMax << "." << endl;
+                continue;
+            }
+
+            if (pool.find(num) != pool.end())
+            {
+                cout << "Number already exists! Please enter a different number." << endl;
+                continue;
+            }
+
+            pool.insert(num);
+            count++;
+        }
+    }
 
     // display numbers in a Table by iterating through the range, and checking if the number is found in the vector, then print the number with brackets, else print the number with spaces
     void displayNumbers() const 
@@ -82,6 +114,28 @@ protected:
                 cout << "\n";
             }
         }
+        
+    }
+    void displayNumbersToFile() const
+    {
+        ofstream file("lotto.txt");
+        for (int num = rangeMin; num <= rangeMax; ++num)                    // iterate through the range
+        {
+            if (find(numbers.begin(), numbers.end(), num) != numbers.end()) // if number is found in the vector
+            {
+                file << "[" << setw(2) << setfill('0') << num << "] ";      // print number with brackets
+            }
+            else
+            {
+                file << " " << setw(2) << setfill('0') << num << "  ";      // print number with spaces
+            }
+
+            if ((num - rangeMin + 1) % tableWidth == 0)                     // new line if the number is divisible by table width
+            {
+                file << "\n";
+            }
+        }
+        file.close();
     }
 
 public:
@@ -171,6 +225,7 @@ public:
             cout << "4: lotto( 2,12, 6) \n";
             cout << "5: lotto( x, y, z) User input\n";
             cout << "6: Clear numbers\n";
+            cout << "7 Input Pool\n";
             cout << "Enter your choice: ";
             cin >> choice;
             switch (choice)
@@ -215,12 +270,16 @@ public:
                 clearNumbers();
                 menu();
                 break;
+            case 7:
+                setPool();
             default:
-                cout << "Invalid choice!" << endl;
+                cout << "_____________________________________________" << endl;
+                
                 menu();
                 break;
             }
         } while (choice != 0);  
+        cout << "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _" << endl; // end of program
     }
 };
 
