@@ -13,7 +13,7 @@ private:
     int numRange;           // Bereich der Zahlen
     int newLine;            // Zähler für die Zeilenumbrüche
 
-public:
+protected:
     LottoGame(int count, int range, int line) : numCount(count), numRange(range), newLine(line)    // Konstruktor für das Lotto Spiel
     {
         numbers = new int[numCount];        // Array für die Zahlen des Spielers
@@ -118,7 +118,7 @@ class LottoController
         game.generateNumbers();
         game.printWinningNumbers();
         game.printTicket();
-        game.checkTicket();
+        game.checkTicket(); 
         
     }
 
