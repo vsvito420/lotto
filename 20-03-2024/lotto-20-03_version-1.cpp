@@ -11,14 +11,14 @@ private:
     int *winningNumbers;    // Array für die Gewinnzahlen
     int numCount;           // Anzahl der Zahlen des Spielers
     int numRange;           // Bereich der Zahlen
+    int newLine;            // Zähler für die Zeilenumbrüche
 
 public:
-    LottoGame(int count, int range) : numCount(count), numRange(range) // Lotto Game with 6 numbers drawn
+    LottoGame(int count, int range, int line) : numCount(count), numRange(range), newLine(line)    // Konstruktor für das Lotto Spiel
     {
         numbers = new int[numCount];        // Array für die Zahlen des Spielers
         winningNumbers = new int[numCount]; // Array für die Gewinnzahlen
     }
-    // ...
     void getNumbers() // Eingabe der Zahlen des Spielers
     {
         cout << "Enter " << numCount << " numbers between 1 and " << numRange << ":" << "\n";   // Aufforderung zur Eingabe der Zahlen
@@ -65,7 +65,7 @@ public:
     void printTicket()  // Druckt den Lottoschein des Spielers
     {
         cout << "Your ticket:" << "\n";
-        for (int i = 1; i <= 49; i++)   // Durchläuft die Zahlen von 1 bis 49
+        for (int i = 1; i <= numRange; i++)   // Durchläuft die Zahlen von 1 bis numRange
         {
             int count = 0;  // Zähler für die Treffer
             for (int j = 0; j < numCount; j++)  // Durchläuft die Zahlen des Spielers
@@ -107,25 +107,26 @@ public:
     }
 };
 
+class LottoController
+{
+    public:
+    // Constructor
+    LottoController(int count, int range, int line)
+    {
+        LottoGame game(count, range, line);
+        game.getNumbers();
+        game.generateNumbers();
+        game.printWinningNumbers();
+        game.printTicket();
+        game.checkTicket();
+        
+    }
+
+};
+
 int main()
 {
-    LottoGame game(6, 49);  // Erstellt ein neues Lotto Spiel mit 6 Zahlen und einem Bereich von 49
-    
-    while (true)   // "\n"osschleife für das Spiel
-    {
-        game.getNumbers();          // Eingabe der Zahlen des Spielers
-        game.generateNumbers();     // Generiert die Gewinnzahlen
-        game.printTicket();         // Druckt den Lottoschein des Spielers
-        game.checkTicket();         // Prüft, ob die Zahlen des Spielers mit den Gewinnzahlen übereinstimmen
-        game.printWinningNumbers(); // Druckt die Gewinnzahlen
-        
-        cout << "Do you want to play again? (y/n): ";
-        char answer;    // Variable für die Antwort des Spielers
-        cin >> answer;  // Fragt den Spieler, ob er noch einmal spielen möchte
-        if (answer != 'y')  // Beendet das Spiel, falls der Spieler nicht noch einmal spielen möchte
-        {
-            break;
-        }
-    }
+    LottoController lotto(6, 49, 7);
+
     return 0;
 }
