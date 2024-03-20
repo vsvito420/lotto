@@ -10,31 +10,28 @@ private:
     int *numbers;           // Array für die Zahlen des Spielers
     int *winningNumbers;    // Array für die Gewinnzahlen
     int numCount;           // Anzahl der Zahlen des Spielers
+    int numRange;           // Bereich der Zahlen
 
 public:
-    LottoGame(int count = 6) : numCount(count) // Lotto Game with 6 numbers drawn
+    LottoGame(int count, int range) : numCount(count), numRange(range) // Lotto Game with 6 numbers drawn
     {
         numbers = new int[numCount];        // Array für die Zahlen des Spielers
         winningNumbers = new int[numCount]; // Array für die Gewinnzahlen
     }
-    ~LottoGame()    // Destructor
-    {
-        delete[] numbers;           // Löscht das Array der Zahlen des Spielers
-        delete[] winningNumbers;    // Löscht das Array der Gewinnzahlen
-    }
+    // ...
     void getNumbers() // Eingabe der Zahlen des Spielers
     {
-        cout << "Enter " << numCount << " numbers between 1 and 49:" << "\n";   // Aufforderung zur Eingabe der Zahlen
+        cout << "Enter " << numCount << " numbers between 1 and " << numRange << ":" << "\n";   // Aufforderung zur Eingabe der Zahlen
         for (int i = 0; i < numCount; i++)  // Durchläuft die Zahlen des Spielers
         {
             while (true)
             {
                 cin >> numbers[i];  // Eingabe der Zahlen
-                if (numbers[i] >= 1 && numbers[i] <= 49)    // Prüft, ob die Zahl zwischen 1 und 49 liegt
+                if (numbers[i] >= 1 && numbers[i] <= numRange)    // Prüft, ob die Zahl zwischen 1 und numRange liegt
                 {
                     break;
                 }
-                cout << "Invalid number. Please enter a number between 1 and 49:" << "\n";
+                cout << "Invalid number. Please enter a number between 1 and " << numRange << ":" << "\n";
             }
         }
     }
@@ -43,7 +40,7 @@ public:
         srand(time(0)); // Initialisiert den Zufallsgenerator
         for (int i = 0; i < numCount; i++)  // Generiert die Gewinnzahlen
         {
-            winningNumbers[i] = rand() % 49 + 1;    // Zufällige Zahl zwischen 1 und 49
+            winningNumbers[i] = rand() % numRange + 1;    // Zufällige Zahl zwischen 1 und numRange
             for (int j = 0; j < i; j++) // Prüft, ob die Zahl bereits generiert wurde
             {
                 if (winningNumbers[i] == winningNumbers[j])  // Falls ja, wird die Zahl erneut generiert
@@ -112,7 +109,7 @@ public:
 
 int main()
 {
-    LottoGame game; // Erzeugt ein Lotto Spiel
+    LottoGame game(6, 49);  // Erstellt ein neues Lotto Spiel mit 6 Zahlen und einem Bereich von 49
     
     while (true)   // "\n"osschleife für das Spiel
     {
