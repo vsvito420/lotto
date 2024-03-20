@@ -1,0 +1,17 @@
+digraph CSMA_CD {
+rankdir=LR;
+node [shape = "record", height = .1];
+
+Channel [label = "{Carrier Sensing Multiple Access with Collision Detection|Channel}"];
+
+NodeA [label = "{Node A|Transmitting|}"];
+NodeB [label = "{Node B|Transmitting|}"];
+
+NodeA:Transmitting -> Channel:Carrier [arrowhead = "vee"];
+NodeB:Transmitting -> Channel:Carrier [arrowhead = "vee"];
+
+Channel:Carrier -> NodeA:Carrier [arrowhead = "vee"];
+Channel:Carrier -> NodeB:Carrier [arrowhead = "vee"];
+
+{rank = same; NodeA; NodeB;}
+}

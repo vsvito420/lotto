@@ -1,6 +1,7 @@
 {
     "configurations": [
         
+        
         {
             "name": "C/C++: g++.exe Aktive Datei erstellen und debuggen",
             "type": "cppdbg",

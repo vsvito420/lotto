@@ -1,0 +1,24 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-g",
+                "-std=c++17",
+                "-o",
+                "${workspaceFolder}/main.exe",
+                "${workspaceFolder}/main.cpp",
+                "${workspaceFolder}/Lotto.cpp",
+                "${workspaceFolder}/Lotto6aus49.cpp",
+                "${workspaceFolder}/Eurolotto.cpp"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
